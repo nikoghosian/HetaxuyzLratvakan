@@ -1,0 +1,448 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Blog API Documentation",
+    "description": "API documentation for managing blog content",
+    "version": "1.0.0"
+  },
+  "host": "localhost:5005/api/v1",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/countries/create": {
+      "post": {
+        "summary": "Create a new country",
+        "description": "Creates a new country with the given title",
+        "parameters": [
+          {
+            "name": "title",
+            "in": "formData",
+            "description": "Title of the country",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Country"
+            }
+          }
+        }
+      }
+    },
+    "/countries/getAll": {
+      "get": {
+        "summary": "Get all countries",
+        "description": "Returns a list of all countries",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Country"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/categories/create": {
+      "post": {
+        "summary": "Create a new category",
+        "description": "Creates a new category with the given title",
+        "parameters": [
+          {
+            "name": "title",
+            "in": "formData",
+            "description": "Title of the category",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Category"
+            }
+          }
+        }
+      }
+    },
+    "/categories/getAll": {
+      "get": {
+        "summary": "Get all categories",
+        "description": "Returns a list of all categories",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Category"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/news/create": {
+      "post": {
+        "summary": "Create a new news article",
+        "description": "Creates a new news article with the given details",
+        "parameters": [
+          {
+            "name": "title",
+            "in": "formData",
+            "description": "Title of the news article",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "in": "formData",
+            "description": "Description of the news article",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "contentTitle",
+            "in": "formData",
+            "description": "Title of the news content",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "contentDescription",
+            "in": "formData",
+            "description": "Description of the news content",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "countryId",
+            "in": "formData",
+            "description": "ID of the country associated with the news article",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "categoryId",
+            "in": "formData",
+            "description": "ID of the category associated with the news article",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "author",
+            "in": "formData",
+            "description": "Author of the news article",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ImageAuthor",
+            "in": "formData",
+            "description": "Author of the news image",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ImageTitle",
+            "in": "formData",
+            "description": "Title of the news image",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "img",
+            "in": "formData",
+            "description": "Image file for the news article",
+            "required": true,
+            "type": "file"
+          },
+          {
+            "name": "bigImage",
+            "in": "formData",
+            "description": "Image file for the news content",
+            "required": true,
+            "type": "file"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/NewsDto"
+            }
+          }
+        }
+      }
+    },
+    "/news/getAll": {
+      "get": {
+        "summary": "Get all news articles",
+        "description": "Returns a list of all news articles",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/NewsDto"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/news/today": {
+      "get": {
+        "summary": "Get today's news articles",
+        "description": "Returns a list of news articles published today",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/NewsDto"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/news/getOne/{id}": {
+      "get": {
+        "summary": "Get a news article by ID",
+        "description": "Returns a news article with the given ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the news article",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/NewsDto"
+            }
+          }
+        }
+      }
+    },
+    "/news/getMostViewed": {
+      "get": {
+        "summary": "Get news articles by views",
+        "description": "Get the top 2 news articles ordered by views.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/NewsDto"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/news/edit/{id}": {
+      "post": {
+        "summary": "Edit a news article",
+        "description": "Edit an existing news article with the given ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the news article to edit",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "title",
+            "in": "formData",
+            "description": "Updated title of the news article",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "in": "formData",
+            "description": "Updated description of the news article",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "contentTitle",
+            "in": "formData",
+            "description": "Updated title of the news content",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "contentDescription",
+            "in": "formData",
+            "description": "Updated description of the news content",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "countryId",
+            "in": "formData",
+            "description": "Updated country ID of the news article",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "categorieId",
+            "in": "formData",
+            "description": "Updated category ID of the news article",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "author",
+            "in": "formData",
+            "description": "Updated author of the news article",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ImageAuthor",
+            "in": "formData",
+            "description": "Updated author of the news image",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ImageTitle",
+            "in": "formData",
+            "description": "Updated title of the news image",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "img",
+            "in": "formData",
+            "description": "Updated image file for the news article",
+            "required": true,
+            "type": "file"
+          },
+          {
+            "name": "bigImage",
+            "in": "formData",
+            "description": "Updated big image file for the news content",
+            "required": true,
+            "type": "file"
+          },
+          {
+            "name": "videoFile",
+            "in": "formData",
+            "description": "Updated video file for the news content",
+            "required": true,
+            "type": "file"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/NewsDto"
+            }
+          }
+        }
+      }
+    },
+    "/news/relates": {
+      "get": {
+        "summary": "Get related news articles",
+        "description": "Get news articles related to the specified category ID",
+        "parameters": [
+          {
+            "name": "categoryId",
+            "in": "query",
+            "description": "ID of the category to get related news articles for",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/NewsDto"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Country": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "title": {
+          "type": "string"
+        }
+      }
+    },
+    "Category": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "title": {
+          "type": "string"
+        }
+      }
+    },
+    "NewsDto": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "img": {
+          "type": "string"
+        },
+        "views": {
+          "type": "integer"
+        },
+        "countryId": {
+          "type": "integer"
+        },
+        "categoryId": {
+          "type": "integer"
+        },
+        "newsContentId": {
+          "type": "integer"
+        }
+      }
+    }
+  }
+}
