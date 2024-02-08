@@ -6,13 +6,11 @@ const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const path = require('path');
 const swaggerUi = require('swagger-ui-express');
-
 const PORT = process.env.PORT || 5005;
 const app = express();
-
 const swaggerDocument = require('./swagger.json');
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(fileUpload({}));

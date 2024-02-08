@@ -259,6 +259,8 @@ class NewsController {
         image = await Image.update(
           {
             url: bigFileNamee,
+            title: ImageTitle,
+            Author: ImageAuthor,
           },
           {
             where: {
@@ -302,12 +304,53 @@ class NewsController {
       const news = await NewsDto.update(
         {
           title,
+          description,
+          countryId,
+          categorieId,
+
           img: fileName,
         },
         { where: { id } },
       );
 
       res.send({ success: true });
+    } catch (e) {
+      throw e;
+    }
+  }
+  async getMostViewedByCountryId(req, res) {
+    try {
+      const { id } = req.params;
+
+      const news = await NewsDto.findAll({
+        where: {
+          countryId: id,
+        },
+        limit: 3,
+        order: [['views', 'DESC']],
+      });
+      res.send(news);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  async getMostViewedAndRelatesNews(req, res) {
+    try {
+      const { id } = req.params;
+      const relatesNews = await NewsDto.findAll({
+        where: {
+          categorieId: id,
+        },
+        limit: 3,
+      });
+
+      const mostViewedNews = await NewsDto.findAll({
+        limit: 3,
+        order: [['views', 'DESC']],
+      });
+
+      res.json({ relatesNews, mostViewedNews });
     } catch (e) {
       throw e;
     }

@@ -13,5 +13,7 @@ router.get('/search', newsController.search);
 router.get('/filter', newsController.filters);
 router.get('/relatesNews', newsController.relatesNews);
 router.put('/editNews/:id', newsController.editNews);
+router.get('/getMostViewedByCountryId/:id', newsController.getMostViewedByCountryId);
+router.get('/getMostViewedAndRelates/:id', newsController.getMostViewedAndRelatesNews);
 
 module.exports = router;

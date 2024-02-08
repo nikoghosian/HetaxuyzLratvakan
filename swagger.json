@@ -390,6 +390,43 @@
           }
         }
       }
+    },
+    "/news/getMostViewedAndRelates/{id}": {
+      "get": {
+        "summary": "Get most viewed and related news articles",
+        "description": "Returns the most viewed news articles and related news articles based on the category ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the category to get related news articles for",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response with most viewed and related news articles",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "relatesNews": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/NewsDto"
+                  }
+                },
+                "mostViewedNews": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/NewsDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
