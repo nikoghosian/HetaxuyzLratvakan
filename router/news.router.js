@@ -1,0 +1,20 @@
+const Router = require('express');
+const newsController = require('../controllers/news.controller');
+const CheckAuthMiddleware = require('../middlewares/authMiddleware');
+
+const router = Router();
+
+router.post('/create', CheckAuthMiddleware, newsController.create);
+router.get('/getAll', newsController.getAll);
+router.get('/getOne/:id', newsController.getOne);
+router.get('/getToday', newsController.getTodaysNews);
+router.get('/getMostViewed', newsController.getMostViewed);
+router.get('/search', newsController.search);
+router.get('/filter', newsController.filters);
+router.get('/relatesNews', newsController.relatesNews);
+router.put('/editNews/:id', CheckAuthMiddleware, newsController.editNews);
+router.get('/getMostViewedByCountryId/:id', newsController.getMostViewedByCountryId);
+router.get('/getMostViewedAndRelates/:id', newsController.getMostViewedAndRelatesNews);
+router.delete('/delete/:id', CheckAuthMiddleware, newsController.deleteNews);
+
+module.exports = router;
