@@ -9,12 +9,14 @@ const swaggerUi = require('swagger-ui-express');
 const PORT = process.env.PORT || 5005;
 const app = express();
 const swaggerDocument = require('./swagger.json');
+const cookieParser = require('cookie-parser');
 
 const cors = require('cors');
 app.use(cors());
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(express.json());
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(fileUpload({}));
 app.use(express.static(path.resolve(__dirname, 'static')));

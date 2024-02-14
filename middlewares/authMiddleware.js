@@ -10,10 +10,9 @@ module.exports = function (req, res, next) {
       res.status(401).json({ message: 'No Authorization' });
     }
     const decoded = jwt.verify(token, process.env.JWT_TOKEN_KEY);
-    if (!'admin') {
+    if (!'ADMIN') {
       res.status(401).json({ message: 'No Authorization' });
     }
-    console.log('+++++++++++++++++++');
     req.admin = decoded;
     next();
   } catch (e) {

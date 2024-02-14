@@ -2,6 +2,7 @@ const { NewsDto, Country, Categorie, NewsContent, Image, Video } = require('../m
 const uuid = require('uuid');
 const path = require('path');
 const { Op } = require('sequelize');
+const { error } = require('console');
 
 class NewsController {
   async create(req, res) {
@@ -20,7 +21,9 @@ class NewsController {
         videoTitle,
       } = req.body;
       const { img, bigImage, videoFile } = req.files;
-
+      console.log(
+        '===============================================================================',
+      );
       console.log(title, description, contentTitle, imageTitle, categoryId);
 
       const smallImageType = img.mimetype.split('/')[1];
@@ -80,7 +83,7 @@ class NewsController {
         include: [
           { model: NewsContent, as: 'newsContent' },
           { model: Country, as: 'country' },
-          { model: Categorie, as: 'categorie' },
+          { model: Categorie, as: 'category' },
         ],
       });
 
@@ -107,7 +110,7 @@ class NewsController {
         include: [
           { model: NewsContent, as: 'newsContent' },
           { model: Country, as: 'country' },
-          { model: Categorie, as: 'categorie' },
+          { model: Categorie, as: 'category' },
         ],
       });
       return res.send(todayNews);
@@ -139,7 +142,7 @@ class NewsController {
             ],
           },
           { model: Country, as: 'country' },
-          { model: Categorie, as: 'categorie' },
+          { model: Categorie, as: 'category' },
         ],
       });
       if (!news) {
@@ -206,9 +209,10 @@ class NewsController {
         });
         return res.send(newsNoCategorie);
       }
-      return res.status(400).json({ success: false, message: 'Bad Request' });
+      res.send(error);
     } catch (e) {
-      res.status(400).json({ success: false });
+      console.log(e);
+      return res.status(400).json({ success: false, message: 'Bad Request' });
     }
   }
 
@@ -318,6 +322,7 @@ class NewsController {
 
       res.send({ success: true });
     } catch (e) {
+      console.log(e);
       res.status(400).json({ success: false });
     }
   }

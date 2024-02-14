@@ -1,4 +1,4 @@
-const e = require('cors');
+const cors = require('cors');
 const sequelize = require('../db');
 const { DataTypes } = require('sequelize');
 
@@ -131,7 +131,7 @@ const Token = sequelize.define('Token', {
   adminId: {
     type: DataTypes.INTEGER,
   },
-  token: {
+  refreshToken: {
     type: DataTypes.STRING,
     allowNull: false,
   },
@@ -153,7 +153,7 @@ Country.hasMany(NewsDto, { foreignKey: 'countryId' });
 NewsDto.belongsTo(Country, { as: 'country' });
 
 Categorie.hasMany(NewsDto, { foreignKey: 'categoryId' });
-NewsDto.belongsTo(Categorie, { as: 'categorie' });
+NewsDto.belongsTo(Categorie, { as: 'category' });
 
 module.exports = {
   NewsContent,
