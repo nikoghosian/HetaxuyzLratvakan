@@ -1,4 +1,3 @@
-const { Token } = require('../models/models');
 const jwt = require('jsonwebtoken');
 
 class TokenService {
@@ -16,24 +15,7 @@ class TokenService {
         refreshToken,
       };
     } catch (e) {
-      res.status(404).json({ success: false });
-    }
-  }
-  validateAccessToken(token) {
-    try {
-      const adminData = jwt.verify(token, process.env.JWT_TOKEN_KEY);
-      return adminData;
-    } catch (e) {
-      return null;
-    }
-  }
-
-  validateRefreshToken(token) {
-    try {
-      const adminData = jwt.verify(token, process.env.JWT_REFRESH_KEY);
-      return adminData;
-    } catch (e) {
-      return null;
+      console.log(e);
     }
   }
 }
