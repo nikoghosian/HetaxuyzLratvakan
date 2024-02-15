@@ -1,4 +1,3 @@
-const cors = require('cors');
 const sequelize = require('../db');
 const { DataTypes } = require('sequelize');
 
@@ -127,19 +126,6 @@ const Admin = sequelize.define('Admin', {
   },
 });
 
-const Token = sequelize.define('Token', {
-  adminId: {
-    type: DataTypes.INTEGER,
-  },
-  refreshToken: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-});
-
-Admin.hasOne(Token, { foreignKey: 'adminId' });
-Token.belongsTo(Admin, { as: 'admin' });
-
 NewsContent.hasOne(NewsDto, { foreignKey: 'newsContentId' });
 NewsDto.belongsTo(NewsContent, { as: 'newsContent' });
 
@@ -164,5 +150,4 @@ module.exports = {
   Categorie,
   Live,
   Admin,
-  Token,
 };

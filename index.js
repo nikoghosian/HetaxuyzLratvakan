@@ -8,10 +8,10 @@ const path = require('path');
 const swaggerUi = require('swagger-ui-express');
 const PORT = process.env.PORT || 5005;
 const app = express();
-const swaggerDocument = require('./swagger.json');
-const cookieParser = require('cookie-parser');
-
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
+const swaggerDocument = require('./swagger.json');
+
 app.use(cors());
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
