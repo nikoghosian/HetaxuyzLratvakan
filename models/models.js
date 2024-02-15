@@ -14,11 +14,7 @@ const NewsContent = sequelize.define('NewsContent', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  imageId: {
-    type: DataTypes.INTEGER,
-    allowNull: true,
-  },
-  videoId: {
+  fileId: {
     type: DataTypes.INTEGER,
     allowNull: true,
   },
@@ -54,7 +50,7 @@ const NewsDto = sequelize.define('NewsDto', {
   },
 });
 
-const Image = sequelize.define('Image', {
+const File = sequelize.define('file', {
   url: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -67,19 +63,8 @@ const Image = sequelize.define('Image', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-});
-
-const Video = sequelize.define('Video', {
-  url: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  title: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  author: {
-    type: DataTypes.STRING,
+  isImage: {
+    type: DataTypes.BOOLEAN,
     allowNull: false,
   },
 });
@@ -129,11 +114,8 @@ const Admin = sequelize.define('Admin', {
 NewsContent.hasOne(NewsDto, { foreignKey: 'newsContentId' });
 NewsDto.belongsTo(NewsContent, { as: 'newsContent' });
 
-Video.hasOne(NewsContent, { foreignKey: 'videoId' });
-NewsContent.belongsTo(Video, { as: 'video' });
-
-Image.hasOne(NewsContent, { foreignKey: 'imageId' });
-NewsContent.belongsTo(Image, { as: 'image' });
+File.hasOne(NewsContent, { foreignKey: 'fileId' });
+NewsContent.belongsTo(File, { as: 'file' });
 
 Country.hasMany(NewsDto, { foreignKey: 'countryId' });
 NewsDto.belongsTo(Country, { as: 'country' });
@@ -145,8 +127,7 @@ module.exports = {
   NewsContent,
   NewsDto,
   Country,
-  Image,
-  Video,
+  File,
   Categorie,
   Live,
   Admin,

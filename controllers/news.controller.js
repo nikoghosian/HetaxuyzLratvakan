@@ -1,4 +1,4 @@
-const { NewsDto, Country, Categorie, NewsContent, Image, Video } = require('../models/models');
+const { NewsDto, Country, Categorie, NewsContent, File } = require('../models/models');
 const uuid = require('uuid');
 const path = require('path');
 const { Op } = require('sequelize');
@@ -15,50 +15,33 @@ class NewsController {
         countryId,
         categoryId,
         author,
-        imageAuthor,
-        imageTitle,
-        videoAuthor,
-        videoTitle,
+        fileAuthor,
+        fileTitle,
       } = req.body;
-      const { img, bigImage, videoFile } = req.files;
-      console.log(
-        '===============================================================================',
-      );
-      console.log(title, description, contentTitle, imageTitle, categoryId);
-
+      const { img, fileContent } = req.files;
       const smallImageType = img.mimetype.split('/')[1];
-      const fileName = uuid.v4() + '.' + smallImageType;
-      img.mv(path.resolve(__dirname, '..', 'static', fileName));
+      const smallFileName = uuid.v4() + '.' + smallImageType;
+      img.mv(path.resolve(__dirname, '..', 'static', smallFileName));
 
-      let image, video;
-      if (bigImage) {
-        const bigImageType = bigImage.mimetype.split('/')[1];
+      const fileContentMimeType = fileContent.mimetype.split('/')[1];
 
-        const bigFileNamee = uuid.v4() + '.' + bigImageType;
-        bigImage.mv(path.resolve(__dirname, '..', 'static', bigFileNamee));
-        image = await Image.create({
-          url: bigFileNamee,
-          title: imageTitle,
-          author: imageAuthor,
-        });
-      } else {
-        const videoType = videoFile.mimetype.split('/')[1];
-        const videoFileName = uuid.v4() + '.' + videoType;
-        videoFile.mv(path.resolve(__dirname, '..', 'static', videoFileName));
-
-        video = await Video.create({
-          url: videoFileName,
-          title: videoTitle,
-          author: videoAuthor,
-        });
-      }
+      const fileName = uuid.v4() + '.' + fileContentMimeType;
+      fileContent.mv(path.resolve(__dirname, '..', 'static', fileName));
+      const file = await File.create({
+        url: fileName,
+        title: fileTitle,
+        author: fileAuthor,
+        isImage:
+          fileContentMimeType === 'video/mp4' || fileContent.mimetype === 'video/quicktime'
+            ? false
+            : true,
+      });
 
       const content = await NewsContent.create({
         title: contentTitle,
         description: contentDescription,
         author,
-        imageId: bigImage ? image.id : null,
-        videoId: videoFile ? video.id : null,
+        fileId: file.id,
       });
 
       const news = await NewsDto.create({
@@ -66,7 +49,8 @@ class NewsController {
         description,
         countryId,
         categoryId,
-        img: fileName,
+        img: smallFileName,
+        file: fileName,
         newsContentId: content.id,
       });
 
@@ -132,12 +116,8 @@ class NewsController {
             as: 'newsContent',
             include: [
               {
-                model: Video,
-                as: 'video',
-              },
-              {
-                model: Image,
-                as: 'image',
+                model: File,
+                as: 'file',
               },
             ],
           },
@@ -242,90 +222,71 @@ class NewsController {
         countryId,
         categoryId,
         author,
-        imageAuthor,
-        imageTitle,
-        videoAuthor,
-        videoTitle,
+        fileAuthor,
+        fileTitle,
       } = req.body;
-      const { img, bigImage, videoFile } = req.files;
+      const { img, fileContent } = req.files;
 
       const newsDto = await NewsDto.findByPk(id, {
         include: [{ model: NewsContent, as: 'newsContent' }],
       });
 
-      const smallImageType = img.mimetype.split('/')[1];
-      const fileName = uuid.v4() + '.' + smallImageType;
-      img.mv(path.resolve(__dirname, '..', 'static', fileName));
+      let smallFileName, fileName;
 
-      let image, video;
-      if (bigImage) {
-        const bigImageType = bigImage.mimetype.split('/')[1];
+      if (img) {
+        const smallImageType = img.mimetype.split('/')[1];
+        smallFileName = uuid.v4() + '.' + smallImageType;
+        img.mv(path.resolve(__dirname, '..', 'static', smallFileName));
+      }
 
-        const bigFileNamee = uuid.v4() + '.' + bigImageType;
-        bigImage.mv(path.resolve(__dirname, '..', 'static', bigFileNamee));
-        image = await Image.update(
-          {
-            url: bigFileNamee,
-            title: imageTitle,
-            Author: imageAuthor,
-          },
-          {
-            where: {
-              id: newsDto.newsContent.imageId,
-            },
-          },
-        );
-      } else {
-        const videoType = videoFile.mimetype.split('/')[1];
+      let file;
+      if (fileContent) {
+        const fileContentMimeType = fileContent.mimetype.split('/')[1];
+        const fileType =
+          fileContentMimeType === 'video/mp4' || fileContentMimeType === 'video/quicktime'
+            ? 'video'
+            : 'image';
 
-        const videoFileName = uuid.v4() + '.' + videoType;
-        videoFile.mv(path.resolve(__dirname, '..', 'static', videoFileName));
-
-        video = await Video.update(
+        fileName = uuid.v4() + '.' + fileContentMimeType;
+        fileContent.mv(path.resolve(__dirname, '..', 'static', fileName));
+        file = await File.update(
           {
-            url: videoFileName,
-            title: videoTitle,
-            author: videoAuthor,
+            url: fileName,
+            title: fileTitle,
+            author: fileAuthor,
+            isImage: fileType === 'image' ? true : false,
           },
-          {
-            where: {
-              id: newsDto.newsContent.videoId,
-            },
-          },
+          { where: { id: newsDto.newsContent.fileId } },
         );
       }
 
-      await NewsContent.update(
+      const content = await NewsContent.update(
         {
           title: contentTitle,
           description: contentDescription,
           author,
-          imageId: bigImage ? newsDto.dataValues.newsContent.dataValues.imageId : null,
-          videoId: videoFile ? newsDto.dataValues.newsContent.dataValues.videoId : null,
+          fileId: file ? file.id : newsDto.newsContent.fileId,
         },
-        {
-          where: { id: newsDto.newsContentId },
-        },
+        { where: { id: newsDto.newsContent.id } },
       );
 
-      await NewsDto.update(
-        {
-          title,
-          description,
-          countryId,
-          categoryId,
+      const news = await newsDto.update({
+        title,
+        description,
+        countryId,
+        categoryId,
+        img: img ? smallFileName : newsDto.img,
+        file: fileContent ? fileName : newsDto.file,
+        newsContentId: content.id,
+      });
 
-          img: fileName,
-        },
-        { where: { id } },
-      );
-
-      res.send({ success: true });
+      res.send(news);
     } catch (e) {
       console.log(e);
       res.status(400).json({ success: false });
     }
   }
+
   async getMostViewedByCountryId(req, res) {
     try {
       const { id } = req.params;
