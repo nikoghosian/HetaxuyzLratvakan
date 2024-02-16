@@ -7,6 +7,7 @@ class LiveController {
       const live = await Live.create({ url });
       return res.json(live);
     } catch (e) {
+      console.log(e);
       throw e;
     }
   }
@@ -16,6 +17,36 @@ class LiveController {
       return res.send(live);
     } catch (e) {
       throw e;
+    }
+  }
+  async edit(req, res) {
+    try {
+      const { id } = req.params;
+      const { url } = req.body;
+      const live = await Live.findByPk(id);
+      if (!live) {
+        return res.status(404).json({ success: false });
+      }
+      live.url = url;
+      await live.save();
+      return res.send(live);
+    } catch (e) {
+      console.log(e);
+      res.status(400).json({ success: false });
+    }
+  }
+  async delete(req, res) {
+    try {
+      const { id } = req.params;
+      await Live.destroy({
+        where: {
+          id,
+        },
+      });
+      return res.status(200).json({ success: true });
+    } catch (e) {
+      console.log(e);
+      res.status(400).json({ success: false });
     }
   }
 }

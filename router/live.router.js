@@ -4,5 +4,6 @@ const router = new Router();
 
 router.post('/create', LiveController.create);
 router.get('/getAll', LiveController.getAll);
-
+router.put('/edit/:id', LiveController.edit);
+router.delete('/delete/:id', LiveController.delete);
 module.exports = router;

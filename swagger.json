@@ -1,578 +1,698 @@
 {
-    "swagger": "2.0",
-    "info": {
-      "title": "API Documentation",
-      "description": "Documentation for API endpoints",
-      "version": "1.0.0"
-    },
-    "host": "localhost:5005",
-    "basePath": "/api/v1",
-  "paths": {
-    "/news/create": {
-      "post": {
-        "summary": "Create a new news item",
-        "consumes": ["multipart/form-data"],
-        "produces": ["application/json"],
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "Authorization token",
-            "type": "string",
-            "required": true
-          },
-          {
-            "name": "title",
-            "in": "formData",
-            "description": "Title of the news",
-            "type": "string",
-            "required": true
-          },
-          {
-            "name": "description",
-            "in": "formData",
-            "description": "Description of the news",
-            "type": "string",
-            "required": true
-          },
-          {
-            "name": "contentTitle",
-            "in": "formData",
-            "description": "Title of the news content",
-            "type": "string",
-            "required": true
-          },
-          {
-            "name": "contentDescription",
-            "in": "formData",
-            "description": "Description of the news content",
-            "type": "string",
-            "required": true
-          },
-          {
-            "name": "countryId",
-            "in": "formData",
-            "description": "ID of the country",
-            "type": "integer",
-            "required": true
-          },
-          {
-            "name": "categoryId",
-            "in": "formData",
-            "description": "ID of the category",
-            "type": "integer",
-            "required": true
-          },
-          {
-            "name": "author",
-            "in": "formData",
-            "description": "Author of the news",
-            "type": "string",
-            "required": true
-          },
-          {
-            "name": "fileTitle",
-            "in": "formData",
-            "description": "Title of the image",
-            "type": "string"
-          },
-          {
-            "name": "fileAuthor",
-            "in": "formData",
-            "description": "Author of the image",
-            "type": "string"
-          },
-          {
-            "name": "img",
-            "in": "formData",
-            "description": "Small image file for the news",
-            "type": "file",
-            "required": true
-          },
-          {
-            "name": "fileContent",
-            "in": "formData",
-            "description": "Big image file for the news (optional)",
-            "type": "file"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successfully created",
-            "schema": { "$ref": "#/definitions/News" }
-          },
-          "400": {
-            "description": "Bad request",
-            "schema": { "$ref": "#/definitions/Error" }
-          }
+  "swagger": "2.0",
+  "info": {
+    "title": "API Documentation",
+    "description": "Documentation for API endpoints",
+    "version": "1.0.0"
+  },
+  "host": "localhost:5005",
+  "basePath": "/api/v1",
+"paths": {
+  "/news/create": {
+    "post": {
+      "summary": "Create a new news item",
+      "consumes": ["multipart/form-data"],
+      "produces": ["application/json"],
+      "parameters": [
+        {
+          "name": "Authorization",
+          "in": "header",
+          "description": "Authorization token",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "title",
+          "in": "formData",
+          "description": "Title of the news",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "description",
+          "in": "formData",
+          "description": "Description of the news",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "contentTitle",
+          "in": "formData",
+          "description": "Title of the news content",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "contentDescription",
+          "in": "formData",
+          "description": "Description of the news content",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "countryId",
+          "in": "formData",
+          "description": "ID of the country",
+          "type": "integer",
+          "required": true
+        },
+        {
+          "name": "categoryId",
+          "in": "formData",
+          "description": "ID of the category",
+          "type": "integer",
+          "required": true
+        },
+        {
+          "name": "author",
+          "in": "formData",
+          "description": "Author of the news",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "fileTitle",
+          "in": "formData",
+          "description": "Title of the image",
+          "type": "string"
+        },
+        {
+          "name": "fileAuthor",
+          "in": "formData",
+          "description": "Author of the image",
+          "type": "string"
+        },
+        {
+          "name": "img",
+          "in": "formData",
+          "description": "Small image file for the news",
+          "type": "file",
+          "required": true
+        },
+        {
+          "name": "fileContent",
+          "in": "formData",
+          "description": "Big image file for the news (optional)",
+          "type": "file"
         }
-      }
-    },
-    "/news/getAll": {
-      "get": {
-        "summary": "Get all news items",
-        "produces": ["application/json"],
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "schema": { "type": "array", "items": { "$ref": "#/definitions/News" } }
-          },
-          "400": {
-            "description": "Bad request",
-            "schema": { "$ref": "#/definitions/Error" }
-          }
+      ],
+      "responses": {
+        "200": {
+          "description": "Successfully created",
+          "schema": { "$ref": "#/definitions/News" }
+        },
+        "400": {
+          "description": "Bad request",
+          "schema": { "$ref": "#/definitions/Error" }
         }
-      }
-    },
-    "/news/getToday": {
-      "get": {
-        "summary": "Get today's news items",
-        "produces": ["application/json"],
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "schema": { "type": "array", "items": { "$ref": "#/definitions/News" } }
-          },
-          "400": {
-            "description": "Bad request",
-            "schema": { "$ref": "#/definitions/Error" }
-          }
-        }
-      }
-    },
-    "/news/getOne/{id}": {
-      "get": {
-        "summary": "Get a news item by ID",
-        "produces": ["application/json"],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "integer"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "schema": { "$ref": "#/definitions/News" }
-          },
-          "400": {
-            "description": "Bad request",
-            "schema": { "$ref": "#/definitions/Error" }
-          }
-        }
-      }
-    },
-    "/news/getMostViewed": {
-      "get": {
-        "summary": "Get most viewed news items",
-        "produces": ["application/json"],
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "schema": { "type": "array", "items": { "$ref": "#/definitions/News" } }
-          },
-          "400": {
-            "description": "Bad request",
-            "schema": { "$ref": "#/definitions/Error" }
-          }
-        }
-      }
-    },
-     "/news/search": {
-      "get": {
-        "summary": "Search for news items",
-        "parameters": [
-          {
-            "name": "search",
-            "in": "query",
-            "description": "Search query",
-            "type": "string",
-            "required": true
-          }
-        ],
-        "produces": ["application/json"],
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "schema": { "type": "array", "items": { "$ref": "#/definitions/News" } }
-          },
-          "400": {
-            "description": "Bad request",
-            "schema": { "$ref": "#/definitions/Error" }
-          }
-        }
-      }
-    },
-    "/news/filter": {
-      "get": {
-        "summary": "Filter news items",
-        "parameters": [
-          {
-            "name": "countryId",
-            "in": "query",
-            "description": "ID of the country",
-            "type": "integer"
-          },
-          {
-            "name": "categoryId",
-            "in": "query",
-            "description": "ID of the category",
-            "type": "integer"
-          }
-        ],
-        "produces": ["application/json"],
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "schema": { "type": "array", "items": { "$ref": "#/definitions/News" } }
-          },
-          "400": {
-            "description": "Bad request",
-            "schema": { "$ref": "#/definitions/Error" }
-          }
-        }
-      }
-    },
-    "/news/relatesNews": {
-      "get": {
-        "summary": "Get related news items",
-        "parameters": [
-          {
-            "name": "categoryId",
-            "in": "query",
-            "description": "ID of the category",
-            "type": "integer",
-            "required": true
-          }
-        ],
-        "produces": ["application/json"],
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "schema": { "type": "array", "items": { "$ref": "#/definitions/News" } }
-          },
-          "400": {
-            "description": "Bad request",
-            "schema": { "$ref": "#/definitions/Error" }
-          }
-        }
-      }
-    },
-    "/news/getMostViewedByCountryId/{id}": {
-      "get": {
-        "summary": "Get most viewed news by country ID",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "ID of the country",
-            "type": "integer",
-            "required": true
-          }
-        ],
-        "produces": ["application/json"],
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "schema": { "type": "array", "items": { "$ref": "#/definitions/News" } }
-          },
-          "400": {
-            "description": "Bad request",
-            "schema": { "$ref": "#/definitions/Error" }
-          }
-        }
-      }
-    },
-    "/news/getMostViewedAndRelates/{id}": {
-      "get": {
-        "summary": "Get most viewed news and related news by category ID",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "ID of the category",
-            "type": "integer",
-            "required": true
-          }
-        ],
-        "produces": ["application/json"],
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "relatesNews": { "type": "array", "items": { "$ref": "#/definitions/News" } },
-                "mostViewedNews": { "type": "array", "items": { "$ref": "#/definitions/News" } }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request",
-            "schema": { "$ref": "#/definitions/Error" }
-          }
-        }
-      }
-    },
- "/news/editNews/{id}": {
-      "put": {
-        "summary": "Update a News by Id",
-        "consumes": ["multipart/form-data"],
-        "produces": ["application/json"],
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "Authorization token",
-            "type": "string",
-            "required": true
-          },
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "name": "title",
-            "in": "formData",
-            "description": "Title of the news",
-            "type": "string",
-            "required": true
-          },
-          {
-            "name": "description",
-            "in": "formData",
-            "description": "Description of the news",
-            "type": "string",
-            "required": true
-          },
-          {
-            "name": "contentTitle",
-            "in": "formData",
-            "description": "Title of the news content",
-            "type": "string",
-            "required": true
-          },
-          {
-            "name": "contentDescription",
-            "in": "formData",
-            "description": "Description of the news content",
-            "type": "string",
-            "required": true
-          },
-          {
-            "name": "countryId",
-            "in": "formData",
-            "description": "ID of the country",
-            "type": "integer",
-            "required": true
-          },
-          {
-            "name": "categoryId",
-            "in": "formData",
-            "description": "ID of the category",
-            "type": "integer",
-            "required": true
-          },
-          {
-            "name": "author",
-            "in": "formData",
-            "description": "Author of the news",
-            "type": "string",
-            "required": true
-          },
-          {
-            "name": "fileTitle",
-            "in": "formData",
-            "description": "Title of the image",
-            "type": "string"
-          },
-          {
-            "name": "fileAuthor",
-            "in": "formData",
-            "description": "Author of the image",
-            "type": "string"
-          },
-          {
-            "name": "img",
-            "in": "formData",
-            "description": "Small image file for the news",
-            "type": "file",
-            "required": true
-          },
-          {
-            "name": "fileContent",
-            "in": "formData",
-            "description": " file for the news (optional)",
-            "type": "file"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successfully Upadated",
-            "schema": { "$ref": "#/definitions/News" }
-          },
-          "400": {
-            "description": "Bad request",
-            "schema": { "$ref": "#/definitions/Error" }
-          }
-        }
-      }
-    },
-"/news/delete/{id}": {
-  "delete": {
-    "summary": "Delete a news item by ID",
-    "produces": ["application/json"],
-    "parameters": [
-      {
-        "name": "Authorization",
-        "in": "header",
-        "description": "Authorization token",
-        "type": "string",
-        "required": true
-      },
-      {
-        "name": "id",
-        "in": "path",
-        "required": true,
-        "type": "integer"
-      }
-    ],
-    "responses": {
-      "204": {
-        "description": "Successfully deleted",
-        "schema": { "$ref": "#/definitions/SuccessResponse" }
-      },
-      "400": {
-        "description": "Bad request",
-        "schema": { "$ref": "#/definitions/Error" }
       }
     }
+  },
+  "/news/getAll": {
+    "get": {
+      "summary": "Get all news items",
+      "produces": ["application/json"],
+      "responses": {
+        "200": {
+          "description": "Successful operation",
+          "schema": { "type": "array", "items": { "$ref": "#/definitions/News" } }
+        },
+        "400": {
+          "description": "Bad request",
+          "schema": { "$ref": "#/definitions/Error" }
+        }
+      }
+    }
+  },
+  "/news/getToday": {
+    "get": {
+      "summary": "Get today's news items",
+      "produces": ["application/json"],
+      "responses": {
+        "200": {
+          "description": "Successful operation",
+          "schema": { "type": "array", "items": { "$ref": "#/definitions/News" } }
+        },
+        "400": {
+          "description": "Bad request",
+          "schema": { "$ref": "#/definitions/Error" }
+        }
+      }
+    }
+  },
+  "/news/getOne/{id}": {
+    "get": {
+      "summary": "Get a news item by ID",
+      "produces": ["application/json"],
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "integer"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Successful operation",
+          "schema": { "$ref": "#/definitions/News" }
+        },
+        "400": {
+          "description": "Bad request",
+          "schema": { "$ref": "#/definitions/Error" }
+        }
+      }
+    }
+  },
+  "/news/getMostViewed": {
+    "get": {
+      "summary": "Get most viewed news items",
+      "produces": ["application/json"],
+      "responses": {
+        "200": {
+          "description": "Successful operation",
+          "schema": { "type": "array", "items": { "$ref": "#/definitions/News" } }
+        },
+        "400": {
+          "description": "Bad request",
+          "schema": { "$ref": "#/definitions/Error" }
+        }
+      }
+    }
+  },
+   "/news/search": {
+    "get": {
+      "summary": "Search for news items",
+      "parameters": [
+        {
+          "name": "search",
+          "in": "query",
+          "description": "Search query",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "produces": ["application/json"],
+      "responses": {
+        "200": {
+          "description": "Successful operation",
+          "schema": { "type": "array", "items": { "$ref": "#/definitions/News" } }
+        },
+        "400": {
+          "description": "Bad request",
+          "schema": { "$ref": "#/definitions/Error" }
+        }
+      }
+    }
+  },
+  "/news/filter": {
+    "get": {
+      "summary": "Filter news items",
+      "parameters": [
+        {
+          "name": "countryId",
+          "in": "query",
+          "description": "ID of the country",
+          "type": "integer"
+        },
+        {
+          "name": "categoryId",
+          "in": "query",
+          "description": "ID of the category",
+          "type": "integer"
+        }
+      ],
+      "produces": ["application/json"],
+      "responses": {
+        "200": {
+          "description": "Successful operation",
+          "schema": { "type": "array", "items": { "$ref": "#/definitions/News" } }
+        },
+        "400": {
+          "description": "Bad request",
+          "schema": { "$ref": "#/definitions/Error" }
+        }
+      }
+    }
+  },
+  "/news/relatesNews": {
+    "get": {
+      "summary": "Get related news items",
+      "parameters": [
+        {
+          "name": "categoryId",
+          "in": "query",
+          "description": "ID of the category",
+          "type": "integer",
+          "required": true
+        }
+      ],
+      "produces": ["application/json"],
+      "responses": {
+        "200": {
+          "description": "Successful operation",
+          "schema": { "type": "array", "items": { "$ref": "#/definitions/News" } }
+        },
+        "400": {
+          "description": "Bad request",
+          "schema": { "$ref": "#/definitions/Error" }
+        }
+      }
+    }
+  },
+  "/news/getMostViewedByCountryId/{id}": {
+    "get": {
+      "summary": "Get most viewed news by country ID",
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "ID of the country",
+          "type": "integer",
+          "required": true
+        }
+      ],
+      "produces": ["application/json"],
+      "responses": {
+        "200": {
+          "description": "Successful operation",
+          "schema": { "type": "array", "items": { "$ref": "#/definitions/News" } }
+        },
+        "400": {
+          "description": "Bad request",
+          "schema": { "$ref": "#/definitions/Error" }
+        }
+      }
+    }
+  },
+  "/news/getMostViewedAndRelates/{id}": {
+    "get": {
+      "summary": "Get most viewed news and related news by category ID",
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "ID of the category",
+          "type": "integer",
+          "required": true
+        }
+      ],
+      "produces": ["application/json"],
+      "responses": {
+        "200": {
+          "description": "Successful operation",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "relatesNews": { "type": "array", "items": { "$ref": "#/definitions/News" } },
+              "mostViewedNews": { "type": "array", "items": { "$ref": "#/definitions/News" } }
+            }
+          }
+        },
+        "400": {
+          "description": "Bad request",
+          "schema": { "$ref": "#/definitions/Error" }
+        }
+      }
+    }
+  },
+"/news/editNews/{id}": {
+    "put": {
+      "summary": "Update a News by Id",
+      "consumes": ["multipart/form-data"],
+      "produces": ["application/json"],
+      "parameters": [
+        {
+          "name": "Authorization",
+          "in": "header",
+          "description": "Authorization token",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "integer"
+        },
+        {
+          "name": "title",
+          "in": "formData",
+          "description": "Title of the news",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "description",
+          "in": "formData",
+          "description": "Description of the news",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "contentTitle",
+          "in": "formData",
+          "description": "Title of the news content",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "contentDescription",
+          "in": "formData",
+          "description": "Description of the news content",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "countryId",
+          "in": "formData",
+          "description": "ID of the country",
+          "type": "integer",
+          "required": true
+        },
+        {
+          "name": "categoryId",
+          "in": "formData",
+          "description": "ID of the category",
+          "type": "integer",
+          "required": true
+        },
+        {
+          "name": "author",
+          "in": "formData",
+          "description": "Author of the news",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "fileTitle",
+          "in": "formData",
+          "description": "Title of the image",
+          "type": "string"
+        },
+        {
+          "name": "fileAuthor",
+          "in": "formData",
+          "description": "Author of the image",
+          "type": "string"
+        },
+        {
+          "name": "img",
+          "in": "formData",
+          "description": "Small image file for the news",
+          "type": "file",
+          "required": true
+        },
+        {
+          "name": "fileContent",
+          "in": "formData",
+          "description": " file for the news (optional)",
+          "type": "file"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Successfully Upadated",
+          "schema": { "$ref": "#/definitions/News" }
+        },
+        "400": {
+          "description": "Bad request",
+          "schema": { "$ref": "#/definitions/Error" }
+        }
+      }
+    }
+  },
+"/news/delete/{id}": {
+"delete": {
+  "summary": "Delete a news item by ID",
+  "produces": ["application/json"],
+  "parameters": [
+    {
+      "name": "Authorization",
+      "in": "header",
+      "description": "Authorization token",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "id",
+      "in": "path",
+      "required": true,
+      "type": "integer"
+    }
+  ],
+  "responses": {
+    "204": {
+      "description": "Successfully deleted",
+      "schema": { "$ref": "#/definitions/SuccessResponse" }
+    },
+    "400": {
+      "description": "Bad request",
+      "schema": { "$ref": "#/definitions/Error" }
+    }
   }
+}
 },
 "/categories/create": {
-  "post": {
-    "summary": "Create a new category",
-    "produces": ["application/json"],
-    "consumes": ["multipart/form-data"],
-    "parameters": [
-      {
-        "name": "Authorization",
-        "in": "header",
-        "description": "Authorization token",
-        "type": "string",
-        "required": true
-      },
-      {
-        "name": "title",
-        "in": "formData",
-        "description": "Title of the category",
-        "type": "string",
-        "required": true
-      }
-    ],
-    "responses": {
-      "200": {
-        "description": "Successfully created",
-        "schema": { "$ref": "#/definitions/Categorie" }
-      },
-      "400": {
-        "description": "Bad request",
-        "schema": { "$ref": "#/definitions/Error" }
-      }
+"post": {
+  "summary": "Create a new category",
+  "produces": ["application/json"],
+  "consumes": ["multipart/form-data"],
+  "parameters": [
+    {
+      "name": "Authorization",
+      "in": "header",
+      "description": "Authorization token",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "title",
+      "in": "formData",
+      "description": "Title of the category",
+      "type": "string",
+      "required": true
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "Successfully created",
+      "schema": { "$ref": "#/definitions/Categorie" }
+    },
+    "400": {
+      "description": "Bad request",
+      "schema": { "$ref": "#/definitions/Error" }
     }
   }
+}
 },
 "/categories/getAll": {
-  "get": {
-    "summary": "Get all categories",
-    "produces": ["application/json"],
-    "responses": {
-      "200": {
-        "description": "Successful operation",
-        "schema": { "type": "array", "items": { "$ref": "#/definitions/Categorie" } }
-      },
-      "400": {
-        "description": "Bad request",
-        "schema": { "$ref": "#/definitions/Error" }
-      }
+"get": {
+  "summary": "Get all categories",
+  "produces": ["application/json"],
+  "responses": {
+    "200": {
+      "description": "Successful operation",
+      "schema": { "type": "array", "items": { "$ref": "#/definitions/Categorie" } }
+    },
+    "400": {
+      "description": "Bad request",
+      "schema": { "$ref": "#/definitions/Error" }
     }
   }
+}
 },
 "/categories/edit/{id}": {
-  "put": {
-    "summary": "Edit a category by ID",
-    "produces": ["application/json"],
-    "consumes": ["multipart/form-data"],
-    "parameters": [
-      {
-        "name": "Authorization",
-        "in": "header",
-        "description": "Authorization token",
-        "type": "string",
-        "required": true
-      },
-      {
-        "name": "id",
-        "in": "path",
-        "required": true,
-        "type": "integer"
-      },
-      {
-        "name": "title",
-        "in": "formData",
-        "description": "Title of the category",
-        "type": "string",
-        "required": true
-      }
-    ],
-    "responses": {
-      "200": {
-        "description": "Successfully updated",
-        "schema": { "$ref": "#/definitions/Categorie" }
-      },
-      "400": {
-        "description": "Bad request",
-        "schema": { "$ref": "#/definitions/Error" }
-      }
+"put": {
+  "summary": "Edit a category by ID",
+  "produces": ["application/json"],
+  "consumes": ["multipart/form-data"],
+  "parameters": [
+    {
+      "name": "Authorization",
+      "in": "header",
+      "description": "Authorization token",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "id",
+      "in": "path",
+      "required": true,
+      "type": "integer"
+    },
+    {
+      "name": "title",
+      "in": "formData",
+      "description": "Title of the category",
+      "type": "string",
+      "required": true
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "Successfully updated",
+      "schema": { "$ref": "#/definitions/Categorie" }
+    },
+    "400": {
+      "description": "Bad request",
+      "schema": { "$ref": "#/definitions/Error" }
     }
   }
+}
 },
 "/categories/delete/{id}": {
-  "delete": {
-    "summary": "Delete a category by ID",
-    "produces": ["application/json"],
-    "parameters": [
-      {
-        "name": "Authorization",
-        "in": "header",
-        "description": "Authorization token",
-        "type": "string",
-        "required": true
-      },
-      {
-        "name": "id",
-        "in": "path",
-        "required": true,
-        "type": "integer"
-      }
-    ],
-    "responses": {
-      "204": {
-        "description": "Successfully deleted",
-        "schema": { "$ref": "#/definitions/SuccessResponse" }
-      },
-      "400": {
-        "description": "Bad request",
-        "schema": { "$ref": "#/definitions/Error" }
-      }
+"delete": {
+  "summary": "Delete a category by ID",
+  "produces": ["application/json"],
+  "parameters": [
+    {
+      "name": "Authorization",
+      "in": "header",
+      "description": "Authorization token",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "id",
+      "in": "path",
+      "required": true,
+      "type": "integer"
+    }
+  ],
+  "responses": {
+    "204": {
+      "description": "Successfully deleted",
+      "schema": { "$ref": "#/definitions/SuccessResponse" }
+    },
+    "400": {
+      "description": "Bad request",
+      "schema": { "$ref": "#/definitions/Error" }
     }
   }
+}
 },
 "/countries/create": {
+"post": {
+  "summary": "Create a new country",
+  "produces": ["application/json"],
+  "consumes": ["multipart/form-data"],
+  "parameters": [
+    {
+      "name": "Authorization",
+      "in": "header",
+      "description": "Authorization token",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "title",
+      "in": "formData",
+      "description": "Title of the country",
+      "type": "string",
+      "required": true
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "Successfully created",
+      "schema": { "$ref": "#/definitions/Country" }
+    },
+    "400": {
+      "description": "Bad request",
+      "schema": { "$ref": "#/definitions/Error" }
+    }
+  }
+}
+},
+"/countries/getAll": {
+"get": {
+  "summary": "Get all countries",
+  "produces": ["application/json"],
+  "responses": {
+    "200": {
+      "description": "Successful operation",
+      "schema": { "type": "array", "items": { "$ref": "#/definitions/Country" } }
+    },
+    "400": {
+      "description": "Bad request",
+      "schema": { "$ref": "#/definitions/Error" }
+    }
+  }
+}
+},
+"/countries/edit/{id}": {
+"put": {
+  "summary": "Edit a country by ID",
+  "produces": ["application/json"],
+  "consumes": ["multipart/form-data"],
+
+  "parameters": [
+    {
+      "name": "Authorization",
+      "in": "header",
+      "description": "Authorization token",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "id",
+      "in": "path",
+      "required": true,
+      "type": "integer"
+    },
+    {
+      "name": "title",
+      "in": "formData",
+      "description": "Title of the country",
+      "type": "string",
+      "required": true
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "Successfully updated",
+      "schema": { "$ref": "#/definitions/Country" }
+    },
+    "400": {
+      "description": "Bad request",
+      "schema": { "$ref": "#/definitions/Error" }
+    }
+  }
+}
+},
+"/countries/delete/{id}": {
+"delete": {
+  "summary": "Delete a country by ID",
+  "produces": ["application/json"],
+  "parameters": [
+    {
+      "name": "Authorization",
+      "in": "header",
+      "description": "Authorization token",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "id",
+      "in": "path",
+      "required": true,
+      "type": "integer"
+    }
+  ],
+  "responses": {
+    "204": {
+      "description": "Successfully deleted",
+      "schema": { "$ref": "#/definitions/SuccessResponse" }
+    },
+    "400": {
+      "description": "Bad request",
+      "schema": { "$ref": "#/definitions/Error" }
+    }
+  }
+}
+},
+"/live/create": {
   "post": {
     "summary": "Create a new country",
     "produces": ["application/json"],
@@ -586,9 +706,9 @@
         "required": true
       },
       {
-        "name": "title",
+        "name": "url",
         "in": "formData",
-        "description": "Title of the country",
+        "description": "URL of Live",
         "type": "string",
         "required": true
       }
@@ -605,14 +725,17 @@
     }
   }
 },
-"/countries/getAll": {
+"/live/getAll": {
   "get": {
-    "summary": "Get all countries",
+    "summary": "Get all live streams",
     "produces": ["application/json"],
     "responses": {
       "200": {
-        "description": "Successful operation",
-        "schema": { "type": "array", "items": { "$ref": "#/definitions/Country" } }
+        "description": "Successfully retrieved",
+        "schema": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/Live" }
+        }
       },
       "400": {
         "description": "Bad request",
@@ -621,12 +744,12 @@
     }
   }
 },
-"/countries/edit/{id}": {
+"/live/edit/{id}": {
   "put": {
-    "summary": "Edit a country by ID",
+    "summary": "Edit a Live by Id",
     "produces": ["application/json"],
     "consumes": ["multipart/form-data"],
-
+  
     "parameters": [
       {
         "name": "Authorization",
@@ -642,9 +765,9 @@
         "type": "integer"
       },
       {
-        "name": "title",
+        "name": "url",
         "in": "formData",
-        "description": "Title of the country",
+        "description": "url of the live",
         "type": "string",
         "required": true
       }
@@ -660,19 +783,12 @@
       }
     }
   }
-},
-"/countries/delete/{id}": {
+  },
+"/live/delete/{id}": {
   "delete": {
-    "summary": "Delete a country by ID",
+    "summary": "Delete a live stream by ID",
     "produces": ["application/json"],
     "parameters": [
-      {
-        "name": "Authorization",
-        "in": "header",
-        "description": "Authorization token",
-        "type": "string",
-        "required": true
-      },
       {
         "name": "id",
         "in": "path",
@@ -681,9 +797,9 @@
       }
     ],
     "responses": {
-      "204": {
+      "200": {
         "description": "Successfully deleted",
-        "schema": { "$ref": "#/definitions/SuccessResponse" }
+        "schema": { "$ref": "#/definitions/Success" }
       },
       "400": {
         "description": "Bad request",
@@ -691,68 +807,76 @@
       }
     }
   }
-}
 },
 "definitions": {
+  "Live": {
+    "type": "object",
+    "properties": {
+      "id": { "type": "integer" },
+      "url": { "type": "string" }
+    }
+  },
 "NewsDto": {
-  "type": "object",
-  "properties": {
-    "title": { "type": "string" },
-    "description": { "type": "string" },
-    "countryId": { "type": "integer" },
-    "categoryId": { "type": "integer" },
-    "img": { "type": "string" },
-    "newsContentId": { "type": "integer" }
-  }
+"type": "object",
+"properties": {
+  "title": { "type": "string" },
+  "description": { "type": "string" },
+  "countryId": { "type": "integer" },
+  "categoryId": { "type": "integer" },
+  "img": { "type": "string" },
+  "newsContentId": { "type": "integer" }
+}
 },
 "News": {
-  "type": "object",
-  "properties": {
-    "id": { "type": "integer" },
-    "title": { "type": "string" },
-    "description": { "type": "string" },
-    "countryId": { "type": "integer" },
-    "categoryId": { "type": "integer" },
-    "img": { "type": "string" },
-    "newsContent": { "$ref": "#/definitions/NewsContent" }
-  }
+"type": "object",
+"properties": {
+  "id": { "type": "integer" },
+  "title": { "type": "string" },
+  "description": { "type": "string" },
+  "countryId": { "type": "integer" },
+  "categoryId": { "type": "integer" },
+  "img": { "type": "string" },
+  "newsContent": { "$ref": "#/definitions/NewsContent" }
+}
 },
 "Categorie": {
-  "type": "object",
-  "properties": {
-    "id": { "type": "integer" },
-    "title": { "type": "string" }
-  }
+"type": "object",
+"properties": {
+  "id": { "type": "integer" },
+  "title": { "type": "string" }
+}
 },
 "Country": {
-  "type": "object",
-  "properties": {
-    "id": { "type": "integer" },
-    "title": { "type": "string" }
-  }
+"type": "object",
+"properties": {
+  "id": { "type": "integer" },
+  "title": { "type": "string" }
+}
 },
 "NewsContent": {
-  "type": "object",
-  "properties": {
-    "id": { "type": "integer" },
-    "title": { "type": "string" },
-    "description": { "type": "string" },
-    "author": { "type": "string" },
-    "imageId": { "type": "integer" },
-    "videoId": { "type": "integer" }
-  }
+"type": "object",
+"properties": {
+  "id": { "type": "integer" },
+  "title": { "type": "string" },
+  "description": { "type": "string" },
+  "author": { "type": "string" },
+  "imageId": { "type": "integer" },
+  "videoId": { "type": "integer" }
+}
 },
 "Error": {
-  "type": "object",
-  "properties": {
-    "message": { "type": "string" }
-  }
+"type": "object",
+"properties": {
+  "message": { "type": "string" }
+}
 },
 "SuccessResponse": {
-  "type": "object",
-  "properties": {
-    "success": { "type": "boolean" }
-  }
+"type": "object",
+"properties": {
+  "success": { "type": "boolean" }
 }
 }
 }
+}
+}
+

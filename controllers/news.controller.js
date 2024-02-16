@@ -63,16 +63,25 @@ class NewsController {
 
   async getAll(req, res) {
     try {
+      let { page, limit } = req.query;
+
+      page = page || 1;
+      limit = limit || 6;
+      const offset = (page - 1) * limit;
+
       const countries = await NewsDto.findAll({
         include: [
           { model: NewsContent, as: 'newsContent' },
           { model: Country, as: 'country' },
           { model: Categorie, as: 'category' },
         ],
+        limit: parseInt(limit),
+        offset: offset,
       });
 
       return res.send(countries);
     } catch (e) {
+      console.error(e);
       res.status(400).json({ success: false });
     }
   }
@@ -86,6 +95,7 @@ class NewsController {
       tomorrow.setDate(today.getDate() + 1);
 
       const todayNews = await NewsDto.findAll({
+        limit: 4,
         where: {
           createdAt: {
             [Op.between]: [today, tomorrow],
