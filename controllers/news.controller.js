@@ -25,6 +25,8 @@ class NewsController {
 
       const fileContentMimeType = fileContent.mimetype.split('/')[1];
 
+      console.log(fileContentMimeType);
+
       const fileName = uuid.v4() + '.' + fileContentMimeType;
       fileContent.mv(path.resolve(__dirname, '..', 'static', fileName));
       const file = await File.create({
@@ -32,7 +34,8 @@ class NewsController {
         title: fileTitle,
         author: fileAuthor,
         isImage:
-          fileContentMimeType === 'video/mp4' || fileContent.mimetype === 'video/quicktime'
+          'video/mp4'.includes(fileContentMimeType) ||
+          'video/quicktime'.includes(fileContentMimeType)
             ? false
             : true,
       });
@@ -75,7 +78,7 @@ class NewsController {
           { model: Country, as: 'country' },
           { model: Categorie, as: 'category' },
         ],
-        limit: parseInt(limit),
+        limit,
         offset: offset,
       });
 

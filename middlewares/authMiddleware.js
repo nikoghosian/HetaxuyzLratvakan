@@ -11,7 +11,7 @@ module.exports = function (req, res, next) {
     }
     const decoded = jwt.verify(token, process.env.JWT_TOKEN_KEY);
     if (decoded.role !== 'ADMIN') {
-      res.status(401).json({ message: 'No Authorization' });
+      res.status(401).json({ message: 'No Access' });
     }
     req.admin = decoded;
     next();
