@@ -2,7 +2,7 @@ const { NewsDto, Country, Categorie, NewsContent, File } = require('../models/mo
 const uuid = require('uuid');
 const path = require('path');
 const { Op } = require('sequelize');
-const { error } = require('console');
+const sequelize = require('sequelize');
 
 class NewsController {
   async create(req, res) {
@@ -350,6 +350,22 @@ class NewsController {
     } catch (e) {
       console.log(e);
       res.status(404).json({ success: false });
+    }
+  }
+
+  async getLatestNews(req, res) {
+    try {
+      const { limit } = req.query;
+
+      const latestNews = await NewsDto.findAll({
+        limit: parseInt(limit),
+        order: [['createdAt', 'DESC']],
+        include: [{ model: Country, as: 'country' }],
+      });
+      return res.send(latestNews);
+    } catch (e) {
+      console.error(e);
+      res.status(500).json({ success: false });
     }
   }
 }

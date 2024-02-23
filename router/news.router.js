@@ -16,5 +16,6 @@ router.put('/editNews/:id', CheckAuthMiddleware, newsController.editNews);
 router.get('/getMostViewedByCountryId/:id', newsController.getMostViewedByCountryId);
 router.get('/getMostViewedAndRelates/:id', newsController.getMostViewedAndRelatesNews);
 router.delete('/delete/:id', CheckAuthMiddleware, newsController.deleteNews);
+router.get('/latestNews/', newsController.getLatestNews);
 
 module.exports = router;

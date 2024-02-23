@@ -7,7 +7,7 @@ const NewsContent = sequelize.define('NewsContent', {
     allowNull: false,
   },
   description: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT('long'),
     allowNull: false,
   },
   author: {
@@ -26,7 +26,7 @@ const NewsDto = sequelize.define('NewsDto', {
     allowNull: false,
   },
   description: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT('long'),
     allowNull: false,
   },
   img: {
@@ -56,7 +56,7 @@ const File = sequelize.define('file', {
     allowNull: false,
   },
   title: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT('long'),
     allowNull: false,
   },
   author: {
