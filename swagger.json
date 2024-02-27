@@ -94,6 +94,12 @@
           "in": "formData",
           "description": "Big image file for the news (optional)",
           "type": "file"
+        },
+        {
+          "name":"middleImage",
+          "in":"formData",
+          "description":" file for the news (optional)",
+          "type":"file"
         }
       ],
       "responses": {
@@ -408,6 +414,12 @@
           "in": "formData",
           "description": " file for the news (optional)",
           "type": "file"
+        }, 
+        {
+          "name":"middleImage",
+          "in":"formData",
+          "description":" file for the news (optional)",
+          "type":"file"
         }
       ],
       "responses": {

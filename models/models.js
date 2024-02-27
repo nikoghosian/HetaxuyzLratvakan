@@ -16,7 +16,7 @@ const NewsContent = sequelize.define('NewsContent', {
   },
   fileId: {
     type: DataTypes.INTEGER,
-    allowNull: true,
+    allowNull: false,
   },
 });
 
@@ -47,6 +47,10 @@ const NewsDto = sequelize.define('NewsDto', {
   newsContentId: {
     type: DataTypes.INTEGER,
     allowNull: false,
+  },
+  middleImage: {
+    type: DataTypes.STRING,
+    allowNull: true,
   },
 });
 

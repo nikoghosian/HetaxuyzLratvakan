@@ -2,7 +2,6 @@ const { NewsDto, Country, Categorie, NewsContent, File } = require('../models/mo
 const uuid = require('uuid');
 const path = require('path');
 const { Op } = require('sequelize');
-const sequelize = require('sequelize');
 
 class NewsController {
   async create(req, res) {
@@ -18,17 +17,20 @@ class NewsController {
         fileAuthor,
         fileTitle,
       } = req.body;
-      const { img, fileContent } = req.files;
+      const { img, fileContent, middleImage } = req.files;
+
+      const middleImageType = middleImage.mimetype.split('/')[1];
+      const middleImageName = uuid.v4() + '.' + middleImageType;
+      middleImage.mv(path.resolve(__dirname, '..', 'static', middleImageName));
+
       const smallImageType = img.mimetype.split('/')[1];
       const smallFileName = uuid.v4() + '.' + smallImageType;
       img.mv(path.resolve(__dirname, '..', 'static', smallFileName));
 
       const fileContentMimeType = fileContent.mimetype.split('/')[1];
-
-      console.log(fileContentMimeType);
-
       const fileName = uuid.v4() + '.' + fileContentMimeType;
       fileContent.mv(path.resolve(__dirname, '..', 'static', fileName));
+
       const file = await File.create({
         url: fileName,
         title: fileTitle,
@@ -54,6 +56,7 @@ class NewsController {
         categoryId,
         img: smallFileName,
         file: fileName,
+        middleImage: middleImageName,
         newsContentId: content.id,
       });
 
@@ -202,7 +205,7 @@ class NewsController {
         });
         return res.send(newsNoCategorie);
       }
-      res.send(error);
+      res.send(news);
     } catch (e) {
       console.log(e);
       return res.status(400).json({ success: false, message: 'Bad Request' });
@@ -238,13 +241,13 @@ class NewsController {
         fileAuthor,
         fileTitle,
       } = req.body;
-      const { img, fileContent } = req.files;
+      const { img, fileContent, middleImage } = req.files;
 
       const newsDto = await NewsDto.findByPk(id, {
         include: [{ model: NewsContent, as: 'newsContent' }],
       });
 
-      let smallFileName, fileName;
+      let smallFileName, fileName, middleImageName;
 
       if (img) {
         const smallImageType = img.mimetype.split('/')[1];
@@ -253,6 +256,13 @@ class NewsController {
       }
 
       let file;
+
+      if (middleImage) {
+        const middleImageType = middleImage.mimetype.split('/')[1];
+        middleImageName = uuid.v4() + '.' + middleImageType;
+        middleImage.mv(path.resolve(__dirname, '..', 'static', middleImageName));
+      }
+
       if (fileContent) {
         const fileContentMimeType = fileContent.mimetype.split('/')[1];
         const fileType =
@@ -290,6 +300,7 @@ class NewsController {
         categoryId,
         img: img ? smallFileName : newsDto.img,
         file: fileContent ? fileName : newsDto.file,
+        middleImage: middleImage ? middleImageName : newsDto.middleImage,
         newsContentId: content.id,
       });
 
@@ -366,6 +377,28 @@ class NewsController {
     } catch (e) {
       console.error(e);
       res.status(500).json({ success: false });
+    }
+  }
+
+  async getCategoriesAndNews(req, res) {
+    try {
+      const { id } = req.params;
+      let news = await Categorie.findAll({
+        include: [
+          {
+            model: NewsDto,
+            limit: 3,
+            attributes: ['title', 'description', 'img', 'createdAt'],
+            where: { countryId: id },
+          },
+        ],
+        attributes: ['id', 'title'],
+      });
+
+      res.send(news);
+    } catch (e) {
+      console.log(e);
+      res.status(500).json({ success: false, message: 'Server Interval Error' });
     }
   }
 }
