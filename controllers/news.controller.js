@@ -155,7 +155,7 @@ class NewsController {
   async getMostViewed(req, res) {
     try {
       const news = await NewsDto.findAll({
-        limit: 2,
+        limit: 3,
         order: [['views', 'DESC']],
       });
 
