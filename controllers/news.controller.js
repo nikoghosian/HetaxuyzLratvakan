@@ -69,20 +69,12 @@ class NewsController {
 
   async getAll(req, res) {
     try {
-      let { page, limit } = req.query;
-
-      page = page || 1;
-      limit = limit || 6;
-      const offset = (page - 1) * limit;
-
       const countries = await NewsDto.findAll({
         include: [
           { model: NewsContent, as: 'newsContent' },
           { model: Country, as: 'country' },
           { model: Categorie, as: 'category' },
         ],
-        limit,
-        offset: offset,
       });
 
       return res.send(countries);
