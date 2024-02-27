@@ -61,7 +61,7 @@
           "in": "formData",
           "description": "ID of the category",
           "type": "integer",
-          "required": true
+          "required": false
         },
         {
           "name": "author",
@@ -473,6 +473,56 @@
     }
   }
 }
+},
+"/news/latestNews": {
+  "get": {
+    "summary": "Get latest news",
+    "parameters": [
+      {
+        "name": "limit",
+        "in": "query",
+        "description": "Number of latest news to retrieve",
+        "required": false,
+        "type": "integer",
+        "format": "int32"
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Successful operation",
+        "schema": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NewsDto"
+          }
+        }
+      }
+    }
+  }
+},
+"/news/getCategoriesAndNews/{id}": {
+  "get": {
+    "summary": "Get news by category ID",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "type": "integer"
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Successful operation",
+        "schema": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CategorieWithNews"
+          }
+        }
+      }
+    }
+  }
 },
 "/categories/create": {
 "post": {

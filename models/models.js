@@ -42,7 +42,7 @@ const NewsDto = sequelize.define('NewsDto', {
   },
   categoryId: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
   },
   newsContentId: {
     type: DataTypes.INTEGER,
@@ -76,7 +76,7 @@ const File = sequelize.define('file', {
 const Categorie = sequelize.define('Categorie', {
   title: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
 });
 const Country = sequelize.define('Country', {
