@@ -69,21 +69,29 @@ class NewsController {
 
   async getAll(req, res) {
     try {
-      const countries = await NewsDto.findAll({
+      const news = await NewsDto.findAll({
         include: [
-          { model: NewsContent, as: 'newsContent' },
+          {
+            model: NewsContent,
+            as: 'newsContent',
+            include: [
+              {
+                model: File,
+                as: 'file',
+              },
+            ],
+          },
           { model: Country, as: 'country' },
           { model: Categorie, as: 'category' },
         ],
       });
 
-      return res.send(countries);
+      return res.send(news);
     } catch (e) {
       console.error(e);
       res.status(400).json({ success: false });
     }
   }
-
   async getTodaysNews(req, res) {
     try {
       const today = new Date();
