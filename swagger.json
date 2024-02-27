@@ -117,7 +117,16 @@
   "/news/getAll": {
     "get": {
       "summary": "Get all news items",
+      "consumes": ["multipart/form-data"],
       "produces": ["application/json"],
+      "parameters": [
+{
+    "name":"page",
+    "in":"params",
+    "description":"Pages for Get All News",
+    "type":"string"
+}
+      ],
       "responses": {
         "200": {
           "description": "Successful operation",

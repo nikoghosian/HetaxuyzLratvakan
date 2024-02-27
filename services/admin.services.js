@@ -1,8 +1,6 @@
 const Admin = require('../models/models').Admin;
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 const tokenServices = require('./token.services');
-const ApiError = require('../exceptions/apiError');
 
 class AdminService {
   async registration(email, password) {
