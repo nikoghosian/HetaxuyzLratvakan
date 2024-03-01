@@ -101,20 +101,26 @@ class NewsController {
       tomorrow.setDate(today.getDate() + 1);
 
       const todayNews = await NewsDto.findAll({
-        limit: 4,
+        limit: 7,
         where: {
           createdAt: {
             [Op.between]: [today, tomorrow],
           },
         },
         include: [
-          { model: NewsContent, as: 'newsContent' },
+          {
+            model: NewsContent,
+            as: 'newsContent',
+            include: [{ model: File, as: 'file', where: { isImage: true } }],
+            required: true,
+          },
           { model: Country, as: 'country' },
           { model: Categorie, as: 'category' },
         ],
       });
       return res.send(todayNews);
     } catch (e) {
+      console.log(e);
       res.status(400).json({ success: false });
     }
   }
@@ -157,9 +163,17 @@ class NewsController {
       const news = await NewsDto.findAll({
         limit: 3,
         order: [['views', 'DESC']],
+        include: [
+          {
+            model: NewsContent,
+            as: 'newsContent',
+            include: [{ model: File, as: 'file', where: { isImage: true } }],
+            required: true,
+          },
+        ],
       });
 
-      res.json(news);
+      return res.send(news);
     } catch (e) {
       res.status(400).json({ success: false });
     }
@@ -321,9 +335,18 @@ class NewsController {
         },
         limit: 3,
         order: [['views', 'DESC']],
+        include: [
+          {
+            model: NewsContent,
+            as: 'newsContent',
+            include: [{ model: File, as: 'file', where: { isImage: true } }],
+            required: true,
+          },
+        ],
       });
-      res.send(news);
+      return res.send(news);
     } catch (e) {
+      console.log(e);
       res.status(400).json({ success: false });
     }
   }
@@ -399,6 +422,26 @@ class NewsController {
     } catch (e) {
       console.log(e);
       res.status(500).json({ success: false, message: 'Server Interval Error' });
+    }
+  }
+  async getMostViewedVideo(req, res) {
+    try {
+      const videoNews = await NewsDto.findAll({
+        limit: 3,
+        order: [['views', 'DESC']],
+        include: [
+          {
+            model: NewsContent,
+            as: 'newsContent',
+            include: [{ model: File, as: 'file', where: { isImage: false } }],
+            required: true,
+          },
+        ],
+      });
+      return res.send(videoNews);
+    } catch (e) {
+      console.log(e);
+      res.status(500).json({ success: false });
     }
   }
 }

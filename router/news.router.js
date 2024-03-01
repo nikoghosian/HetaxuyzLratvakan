@@ -18,5 +18,6 @@ router.get('/getMostViewedAndRelates/:id', newsController.getMostViewedAndRelate
 router.delete('/delete/:id', CheckAuthMiddleware, newsController.deleteNews);
 router.get('/latestNews/', newsController.getLatestNews);
 router.get('/getCategoriesAndNews/:id', newsController.getCategoriesAndNews);
+router.get('/getMostViewedVideo', newsController.getMostViewedVideo);
 
 module.exports = router;
