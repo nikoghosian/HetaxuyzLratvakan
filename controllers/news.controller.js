@@ -202,6 +202,13 @@ class NewsController {
             countryId,
             categoryId,
           },
+          include: [
+            {
+              model: NewsContent,
+              as: 'newsContent',
+              include: [{ model: File, as: 'file' }],
+            },
+          ],
         });
         return res.send(news);
       } else if (categoryId) {
@@ -209,6 +216,13 @@ class NewsController {
           where: {
             categoryId,
           },
+          include: [
+            {
+              model: NewsContent,
+              as: 'newsContent',
+              include: [{ model: File, as: 'file' }],
+            },
+          ],
         });
         return res.send(newsNoCountry);
       } else if (countryId) {
@@ -216,6 +230,13 @@ class NewsController {
           where: {
             countryId,
           },
+          include: [
+            {
+              model: NewsContent,
+              as: 'newsContent',
+              include: [{ model: File, as: 'file' }],
+            },
+          ],
         });
         return res.send(newsNoCategorie);
       }
