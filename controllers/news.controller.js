@@ -1,4 +1,4 @@
-const { NewsDto, Country, Categorie, NewsContent, File } = require('../models/models');
+const { NewsDto, Country, Categorie, NewsContent, File, Live } = require('../models/models');
 const uuid = require('uuid');
 const path = require('path');
 const { Op } = require('sequelize');
@@ -16,51 +16,83 @@ class NewsController {
         author,
         fileAuthor,
         fileTitle,
+        url,
       } = req.body;
-      const { img, fileContent, middleImage } = req.files;
+      if (url) {
+        const { img, middleImage } = req.files;
+        const middleImageType = middleImage.mimetype.split('/')[1];
+        const middleImageName = uuid.v4() + '.' + middleImageType;
+        middleImage.mv(path.resolve(__dirname, '..', 'static', middleImageName));
 
-      const middleImageType = middleImage.mimetype.split('/')[1];
-      const middleImageName = uuid.v4() + '.' + middleImageType;
-      middleImage.mv(path.resolve(__dirname, '..', 'static', middleImageName));
+        const smallImageType = img.mimetype.split('/')[1];
+        const smallFileName = uuid.v4() + '.' + smallImageType;
+        img.mv(path.resolve(__dirname, '..', 'static', smallFileName));
 
-      const smallImageType = img.mimetype.split('/')[1];
-      const smallFileName = uuid.v4() + '.' + smallImageType;
-      img.mv(path.resolve(__dirname, '..', 'static', smallFileName));
+        const live = await Live.create({
+          url,
+        });
+        const content = await NewsContent.create({
+          title: contentTitle,
+          description: contentDescription,
+          author,
+          url: Live.url,
+        });
+        const news = await NewsDto.create({
+          title,
+          description,
+          countryId,
+          categoryId,
+          img: smallFileName,
+          middleImage: middleImageName,
+          newsContentId: content.id,
+        });
+        res.send(news);
+      } else {
+        const { img, fileContent, middleImage } = req.files;
 
-      const fileContentMimeType = fileContent.mimetype.split('/')[1];
-      const fileName = uuid.v4() + '.' + fileContentMimeType;
-      fileContent.mv(path.resolve(__dirname, '..', 'static', fileName));
+        const middleImageType = middleImage.mimetype.split('/')[1];
+        const middleImageName = uuid.v4() + '.' + middleImageType;
+        middleImage.mv(path.resolve(__dirname, '..', 'static', middleImageName));
 
-      const file = await File.create({
-        url: fileName,
-        title: fileTitle,
-        author: fileAuthor,
-        isImage:
-          'video/mp4'.includes(fileContentMimeType) ||
-          'video/quicktime'.includes(fileContentMimeType)
-            ? false
-            : true,
-      });
+        const smallImageType = img.mimetype.split('/')[1];
+        const smallFileName = uuid.v4() + '.' + smallImageType;
+        img.mv(path.resolve(__dirname, '..', 'static', smallFileName));
 
-      const content = await NewsContent.create({
-        title: contentTitle,
-        description: contentDescription,
-        author,
-        fileId: file.id,
-      });
+        const fileContentMimeType = fileContent.mimetype.split('/')[1];
+        const fileName = uuid.v4() + '.' + fileContentMimeType;
+        fileContent.mv(path.resolve(__dirname, '..', 'static', fileName));
 
-      const news = await NewsDto.create({
-        title,
-        description,
-        countryId,
-        categoryId,
-        img: smallFileName,
-        file: fileName,
-        middleImage: middleImageName,
-        newsContentId: content.id,
-      });
+        const file = await File.create({
+          url: fileName,
+          title: fileTitle,
+          author: fileAuthor,
+          isImage:
+            'video/mp4'.includes(fileContentMimeType) ||
+            'video/quicktime'.includes(fileContentMimeType)
+              ? false
+              : true,
+        });
 
-      res.send(news);
+        const content = await NewsContent.create({
+          title: contentTitle,
+          description: contentDescription,
+          author,
+          fileId: file.id,
+        });
+
+        const news = await NewsDto.create({
+          title,
+          description,
+          countryId,
+          categoryId,
+          img: smallFileName,
+          file: fileName,
+          middleImage: middleImageName,
+          newsContentId: content.id,
+        });
+
+        res.send(news);
+      }
     } catch (e) {
       res.status(400).json({ success: false });
       console.log(e);
@@ -202,7 +234,11 @@ class NewsController {
             countryId,
             categoryId,
           },
+
           include: [
+            { model: Country, as: 'country' },
+            { model: Categorie, as: 'category' },
+
             {
               model: NewsContent,
               as: 'newsContent',
@@ -380,11 +416,19 @@ class NewsController {
           categoryId: id,
         },
         limit: 3,
+        include: [
+          { model: Country, as: 'country' },
+          { model: Categorie, as: 'category' },
+        ],
       });
 
       const mostViewedNews = await NewsDto.findAll({
         limit: 3,
         order: [['views', 'DESC']],
+        include: [
+          { model: Country, as: 'country' },
+          { model: Categorie, as: 'category' },
+        ],
       });
 
       res.json({ relatesNews, mostViewedNews });

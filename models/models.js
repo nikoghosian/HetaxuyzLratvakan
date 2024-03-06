@@ -16,7 +16,7 @@ const NewsContent = sequelize.define('NewsContent', {
   },
   fileId: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
   },
 });
 
