@@ -15,6 +15,12 @@
       "produces": ["application/json"],
       "parameters": [
         {
+          "name":"url",
+          "in":"formData",
+          "type":"string",
+          "required":false
+        },
+        {
           "name": "Authorization",
           "in": "header",
           "description": "Authorization token",
