@@ -196,6 +196,8 @@ class NewsController {
         limit: 3,
         order: [['views', 'DESC']],
         include: [
+          { model: Country, as: 'country' },
+          { model: Categorie, as: 'category' },
           {
             model: NewsContent,
             as: 'newsContent',
