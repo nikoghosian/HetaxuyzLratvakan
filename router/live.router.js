@@ -1,5 +1,6 @@
 const Router = require('express');
 const LiveController = require('../controllers/live.controller');
+const checkAuthMiddleware = require('../middlewares/authMiddleware');
 const router = new Router();
 
 router.post('/create', LiveController.create);

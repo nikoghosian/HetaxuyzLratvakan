@@ -776,13 +776,6 @@
     "consumes": ["multipart/form-data"],
     "parameters": [
       {
-        "name": "Authorization",
-        "in": "header",
-        "description": "Authorization token",
-        "type": "string",
-        "required": true
-      },
-      {
         "name": "url",
         "in": "formData",
         "description": "URL of Live",
@@ -835,13 +828,6 @@
   
     "parameters": [
       {
-        "name": "Authorization",
-        "in": "header",
-        "description": "Authorization token",
-        "type": "string",
-        "required": true
-      },
-      {
         "name": "id",
         "in": "path",
         "required": true,
@@ -853,7 +839,14 @@
         "description": "url of the live",
         "type": "string",
         "required": true
-      }
+      },
+    {
+      "name":"title",
+      "in":"formData",
+      "description":"Title of the live",
+      "type" : "string",
+      "required":true
+    }
     ],
     "responses": {
       "200": {

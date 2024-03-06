@@ -22,12 +22,13 @@ class LiveController {
   async edit(req, res) {
     try {
       const { id } = req.params;
-      const { url } = req.body;
+      const { url, title } = req.body;
       const live = await Live.findByPk(id);
       if (!live) {
         return res.status(404).json({ success: false });
       }
       live.url = url;
+      live.title = title;
       await live.save();
       return res.send(live);
     } catch (e) {

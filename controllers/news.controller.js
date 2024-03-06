@@ -130,31 +130,47 @@ class NewsController {
   }
   async getTodaysNews(req, res) {
     try {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
+      // const today = new Date();
+      // today.setHours(0, 0, 0, 0);
 
-      const tomorrow = new Date(today);
-      tomorrow.setDate(today.getDate() + 1);
+      // const tomorrow = new Date(today);
+      // tomorrow.setDate(today.getDate() + 1);
 
-      const todayNews = await NewsDto.findAll({
-        limit: 7,
-        where: {
-          createdAt: {
-            [Op.between]: [today, tomorrow],
-          },
-        },
+      // const todayNews = await NewsDto.findAll({
+      //   limit: 7,
+      //   where: {
+      //     createdAt: {
+      //       [Op.between]: [today, tomorrow],
+      //     },
+      //   },
+      //   include: [
+      //     {
+      //       model: NewsContent,
+      //       as: 'newsContent',
+      //       include: [{ model: File, as: 'file', where: { isImage: true } }],
+      //       required: true,
+      //     },
+      //     { model: Country, as: 'country' },
+      //     { model: Categorie, as: 'category' },
+      //   ],
+      // });
+      // return res.send(todayNews);
+      const news = await NewsDto.findAll({
+        limit: 4,
+        order: [['createdAt', 'DESC']],
         include: [
+          { model: Country, as: 'country' },
+          { model: Categorie, as: 'category' },
           {
             model: NewsContent,
             as: 'newsContent',
             include: [{ model: File, as: 'file', where: { isImage: true } }],
             required: true,
           },
-          { model: Country, as: 'country' },
-          { model: Categorie, as: 'category' },
         ],
       });
-      return res.send(todayNews);
+
+      return res.send(news);
     } catch (e) {
       console.log(e);
       res.status(400).json({ success: false });
@@ -198,7 +214,7 @@ class NewsController {
     try {
       const news = await NewsDto.findAll({
         limit: 3,
-        order: [['createdAt', 'DESC']],
+        order: [['views', 'DESC']],
         include: [
           { model: Country, as: 'country' },
           { model: Categorie, as: 'category' },
