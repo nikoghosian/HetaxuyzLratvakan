@@ -90,6 +90,9 @@ const Live = sequelize.define('live', {
   url: {
     type: DataTypes.STRING,
   },
+  title: {
+    type: DataTypes.STRING,
+  },
 });
 
 const Admin = sequelize.define('Admin', {

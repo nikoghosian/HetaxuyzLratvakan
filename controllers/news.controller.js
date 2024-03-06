@@ -198,7 +198,7 @@ class NewsController {
     try {
       const news = await NewsDto.findAll({
         limit: 3,
-        order: [['views', 'DESC']],
+        order: [['createdAt', 'DESC']],
         include: [
           { model: Country, as: 'country' },
           { model: Categorie, as: 'category' },
@@ -427,6 +427,7 @@ class NewsController {
         },
         limit: 3,
         include: [
+          { model: NewsContent, as: 'newsContent', include: [{ model: File, as: 'file' }] },
           { model: Country, as: 'country' },
           { model: Categorie, as: 'category' },
         ],

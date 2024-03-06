@@ -788,6 +788,12 @@
         "description": "URL of Live",
         "type": "string",
         "required": true
+      },
+      {
+        "name":"title",
+        "in":"formData",
+        "type":"string",
+        "required":true 
       }
     ],
     "responses": {
