@@ -253,6 +253,8 @@ class NewsController {
             categoryId,
           },
           include: [
+            { model: Country, as: 'country' },
+            { model: Categorie, as: 'category' },
             {
               model: NewsContent,
               as: 'newsContent',
@@ -267,6 +269,8 @@ class NewsController {
             countryId,
           },
           include: [
+            { model: Country, as: 'country' },
+            { model: Categorie, as: 'category' },
             {
               model: NewsContent,
               as: 'newsContent',
