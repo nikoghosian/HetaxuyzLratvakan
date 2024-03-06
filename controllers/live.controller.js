@@ -3,8 +3,8 @@ const { Live } = require('../models/models');
 class LiveController {
   async create(req, res) {
     try {
-      const { url } = req.body;
-      const live = await Live.create({ url });
+      const { url, title } = req.body;
+      const live = await Live.create({ url, title });
       return res.json(live);
     } catch (e) {
       console.log(e);
