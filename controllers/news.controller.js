@@ -240,6 +240,9 @@ class NewsController {
         where: {
           title: { [Op.iLike]: `%${search}%` },
         },
+        include: [
+          { model: NewsContent, as: 'newsContent', include: [{ model: File, as: 'file' }] },
+        ],
       });
       res.send(news);
     } catch (e) {
@@ -455,6 +458,7 @@ class NewsController {
         include: [
           { model: Country, as: 'country' },
           { model: Categorie, as: 'category' },
+          { model: NewsContent, as: 'newsContent', include: [{ model: File, as: 'file' }] },
         ],
       });
 
