@@ -74,7 +74,6 @@ class AdminController {
       res.cookie('refreshToken', refreshToken, {
         maxAge: 30 * 24 * 60 * 60 * 1000,
         httpOnly: true,
-        secure: true,
       });
 
       return res.send({ ...admin.toJSON(), accessToken });
@@ -101,7 +100,6 @@ class AdminController {
       res.cookie('refreshToken', refreshToken, {
         maxAge: 30 * 24 * 60 * 60 * 1000,
         httpOnly: true,
-        secure: true,
       });
 
       return res.send({ accessToken });

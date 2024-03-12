@@ -5,7 +5,7 @@
     "description": "Documentation for API endpoints",
     "version": "1.0.0"
   },
-  "host": "localhost:5005",
+  "host": "http://164.92.254.73/service",
   "basePath": "/api/v1",
 "paths": {
   "/news/create": {
@@ -776,6 +776,13 @@
     "consumes": ["multipart/form-data"],
     "parameters": [
       {
+        "name": "Authorization",
+        "in": "header",
+        "description": "Authorization token",
+        "type": "string",
+        "required": true
+      },
+      {
         "name": "url",
         "in": "formData",
         "description": "URL of Live",
@@ -828,6 +835,13 @@
   
     "parameters": [
       {
+        "name": "Authorization",
+        "in": "header",
+        "description": "Authorization token",
+        "type": "string",
+        "required": true
+      },
+      {
         "name": "id",
         "in": "path",
         "required": true,
@@ -865,6 +879,13 @@
     "summary": "Delete a live stream by ID",
     "produces": ["application/json"],
     "parameters": [
+      {
+        "name": "Authorization",
+        "in": "header",
+        "description": "Authorization token",
+        "type": "string",
+        "required": true
+      },
       {
         "name": "id",
         "in": "path",
