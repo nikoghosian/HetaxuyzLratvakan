@@ -15,11 +15,8 @@ class AdminController {
         role: 'ADMIN',
         id: newAdmin.id,
       });
-      res.cookie('refreshToken', refreshToken, {
-        maxAge: 30 * 24 * 60 * 60 * 1000,
-        httpOnly: true,
-      });
-      return res.status(201).json({ ...newAdmin.toJSON(), accessToken });
+
+      return res.status(201).json({ ...newAdmin.toJSON(), accessToken, refreshToken });
     } catch (e) {
       console.error(e);
       res.status(404).json({ success: false });
@@ -44,12 +41,7 @@ class AdminController {
         id: admin.id,
       });
 
-      res.cookie('refreshToken', refreshToken, {
-        maxAge: 30 * 24 * 60 * 60 * 1000,
-        httpOnly: true,
-      });
-
-      return res.json({ ...admin.toJSON(), accessToken });
+      return res.json({ ...admin.toJSON(), accessToken, refreshToken });
     } catch (error) {
       console.error(error);
       return res.status(500).json({ success: false, message: 'Login failed' });
@@ -71,12 +63,7 @@ class AdminController {
         id: admin.id,
       });
 
-      res.cookie('refreshToken', refreshToken, {
-        maxAge: 30 * 24 * 60 * 60 * 1000,
-        httpOnly: true,
-      });
-
-      return res.send({ ...admin.toJSON(), accessToken });
+      return res.send({ ...admin.toJSON(), accessToken, refreshToken });
     } catch (e) {
       console.log(e);
       return res.status(400).json({ success: false });
@@ -84,7 +71,7 @@ class AdminController {
   }
   async refresh(req, res) {
     try {
-      const { refreshToken: oldToken } = req.cookies;
+      const { refreshToken: oldToken } = req.query;
 
       const token = jwt.verify(oldToken, process.env.JWT_REFRESH_KEY);
 
@@ -97,12 +84,7 @@ class AdminController {
         id: oldToken.id,
       });
 
-      res.cookie('refreshToken', refreshToken, {
-        maxAge: 30 * 24 * 60 * 60 * 1000,
-        httpOnly: true,
-      });
-
-      return res.send({ accessToken });
+      return res.send({ accessToken, refreshToken });
     } catch (e) {
       console.log(e);
       return res.status(400).json({ success: false });
