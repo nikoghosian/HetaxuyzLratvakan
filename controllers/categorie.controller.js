@@ -31,7 +31,7 @@ class CategorieController {
       categorie.title = title;
       await categorie.save();
 
-      res.send(categorie);
+      return res.send(categorie);
     } catch (e) {
       console.log(e);
       res.status(404).json({ success: false });
@@ -46,7 +46,7 @@ class CategorieController {
           id,
         },
       });
-      res.status(200).json({ success: true });
+      return res.status(200).json({ success: true });
     } catch (e) {
       res.status(404).json({ success: false });
     }

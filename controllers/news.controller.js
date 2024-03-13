@@ -244,7 +244,7 @@ class NewsController {
           { model: NewsContent, as: 'newsContent', include: [{ model: File, as: 'file' }] },
         ],
       });
-      res.send(news);
+      return res.send(news);
     } catch (e) {
       res.status(400).json({ success: false });
     }
@@ -305,7 +305,7 @@ class NewsController {
         });
         return res.send(newsNoCategorie);
       }
-      res.send(news);
+      return res.send(news);
     } catch (e) {
       console.log(e);
       return res.status(400).json({ success: false, message: 'Bad Request' });

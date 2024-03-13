@@ -35,7 +35,7 @@ class CountryController {
       countries.title = title;
       await countries.save();
 
-      res.send(countries);
+      return res.send(countries);
     } catch (e) {
       console.log(e);
       res.status(404).json({ success: false });
@@ -49,7 +49,7 @@ class CountryController {
           id,
         },
       });
-      res.status(200).json({ success: true });
+      return res.status(200).json({ success: true });
     } catch (e) {
       res.status(404).json({ success: false });
     }
