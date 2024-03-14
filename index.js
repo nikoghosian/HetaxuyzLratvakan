@@ -28,8 +28,8 @@ app.use('/api/v1/live', LiveRouter);
 app.use('/api/v1/admin', AdminRouter);
 const start = async () => {
   try {
-    await Sequelize.authenticate();
-    await Sequelize.sync();
+    // await Sequelize.authenticate();
+    // await Sequelize.sync();
     app.listen(PORT, () => console.log(`Server Started On Port ${PORT}`));
   } catch (e) {
     console.log(e);
