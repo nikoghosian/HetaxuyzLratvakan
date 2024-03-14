@@ -321,7 +321,7 @@ class NewsController {
           categoryId,
         },
       });
-      res.send(news);
+      return res.send(news);
     } catch (e) {
       res.status(400).json({ success: false });
     }
@@ -404,7 +404,7 @@ class NewsController {
         newsContentId: content.id,
       });
 
-      res.send(news);
+      return res.send(news);
     } catch (e) {
       console.log(e);
       res.status(400).json({ success: false });
@@ -462,7 +462,7 @@ class NewsController {
         ],
       });
 
-      res.json({ relatesNews, mostViewedNews });
+      return res.json({ relatesNews, mostViewedNews });
     } catch (e) {
       res.status(400).json({ success: false });
     }
@@ -476,7 +476,7 @@ class NewsController {
         },
       });
 
-      res.json({ success: true });
+      return res.json({ success: true });
     } catch (e) {
       console.log(e);
       res.status(404).json({ success: false });
@@ -514,7 +514,7 @@ class NewsController {
         attributes: ['id', 'title'],
       });
 
-      res.send(news);
+      return res.send(news);
     } catch (e) {
       console.log(e);
       res.status(500).json({ success: false, message: 'Server Interval Error' });
