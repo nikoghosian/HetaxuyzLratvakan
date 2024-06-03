@@ -21,7 +21,7 @@ class NewsController {
       if (url) {
         const { img, middleImage } = req.files;
         const middleImageType = middleImage.mimetype.split('/')[1];
-        const middleImageName = uuid.v4() + '.' + middleImageType;
+        const middleImageName0 = uuid.v4() + '.' + middleImageType;
         middleImage.mv(path.resolve(__dirname, '..', 'static', middleImageName));
 
         const smallImageType = img.mimetype.split('/')[1];
