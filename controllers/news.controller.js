@@ -2,6 +2,7 @@ const { NewsDto, Country, Categorie, NewsContent, File, Live } = require('../mod
 const uuid = require('uuid');
 const path = require('path');
 const { Op } = require('sequelize');
+const moment = require('moment');
 
 class NewsController {
   async create(req, res) {
@@ -43,7 +44,6 @@ class NewsController {
         });
         const news = await NewsDto.create({
           title,
-          description,
           countryId,
           categoryId,
           img: smallFileName,
@@ -87,7 +87,6 @@ class NewsController {
 
       const news = await NewsDto.create({
         title,
-        description,
         countryId,
         categoryId,
         img: smallFileName,
@@ -395,7 +394,6 @@ class NewsController {
 
       const news = await newsDto.update({
         title,
-        description,
         countryId,
         categoryId,
         img: img ? smallFileName : newsDto.img,
@@ -538,6 +536,33 @@ class NewsController {
     } catch (e) {
       console.log(e);
       res.status(500).json({ success: false });
+    }
+  }
+  async getNewsByCalendar(req, res) {
+    try {
+      const { date: datee } = req.query;
+      const date = new Date(datee);
+      const startDate = new Date(
+        Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), 0, 0, 0, 0),
+      );
+      const endDate = new Date(
+        Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), 23, 59, 59, 999),
+      );
+
+      console.log(startDate, endDate);
+      const news = await NewsDto.findAll({
+        where: {
+          createdAt: {
+            [Op.between]: [startDate, endDate],
+          },
+        },
+      });
+
+      return res.send(news);
+    } catch (error) {
+      console.error(error);
+
+      return res.status(500).json({ message: 'Something went wrong' });
     }
   }
 }

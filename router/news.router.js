@@ -19,5 +19,6 @@ router.delete('/delete/:id', CheckAuthMiddleware, newsController.deleteNews);
 router.get('/latestNews/', newsController.getLatestNews);
 router.get('/getCategoriesAndNews/:id', newsController.getCategoriesAndNews);
 router.get('/getMostViewedVideo', newsController.getMostViewedVideo);
+router.get('/calendar', newsController.getNewsByCalendar);
 
 module.exports = router;

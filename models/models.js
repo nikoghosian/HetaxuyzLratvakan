@@ -25,10 +25,6 @@ const NewsDto = sequelize.define('NewsDto', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  description: {
-    type: DataTypes.TEXT('long'),
-    allowNull: false,
-  },
   img: {
     type: DataTypes.STRING,
   },
