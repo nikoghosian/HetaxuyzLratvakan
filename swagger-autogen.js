@@ -9,8 +9,8 @@ const config = {
     description: '',
   },
   tags: [],
-  host: 'localhost:5005/api/v1',
-  schemes: ['http'],
+  host: 'https://hetakhuyz.am/server/',
+  schemes: ['https'],
 };
 
 swaggerAutogen(outputFile, endpointsFiles, config);

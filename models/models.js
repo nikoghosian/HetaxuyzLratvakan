@@ -8,11 +8,9 @@ const NewsContent = sequelize.define('NewsContent', {
   },
   description: {
     type: DataTypes.TEXT('long'),
-    allowNull: false,
   },
   author: {
     type: DataTypes.STRING,
-    allowNull: false,
   },
   fileId: {
     type: DataTypes.INTEGER,
@@ -23,7 +21,6 @@ const NewsContent = sequelize.define('NewsContent', {
 const NewsDto = sequelize.define('NewsDto', {
   title: {
     type: DataTypes.STRING,
-    allowNull: false,
   },
   img: {
     type: DataTypes.STRING,
@@ -34,7 +31,6 @@ const NewsDto = sequelize.define('NewsDto', {
   },
   countryId: {
     type: DataTypes.INTEGER,
-    allowNull: false,
   },
   categoryId: {
     type: DataTypes.INTEGER,
@@ -42,7 +38,6 @@ const NewsDto = sequelize.define('NewsDto', {
   },
   newsContentId: {
     type: DataTypes.INTEGER,
-    allowNull: false,
   },
   middleImage: {
     type: DataTypes.STRING,
@@ -53,32 +48,26 @@ const NewsDto = sequelize.define('NewsDto', {
 const File = sequelize.define('file', {
   url: {
     type: DataTypes.STRING,
-    allowNull: false,
   },
   title: {
     type: DataTypes.TEXT('long'),
-    allowNull: false,
   },
   author: {
     type: DataTypes.STRING,
-    allowNull: false,
   },
   isImage: {
     type: DataTypes.BOOLEAN,
-    allowNull: false,
   },
 });
 
 const Categorie = sequelize.define('Categorie', {
   title: {
     type: DataTypes.STRING,
-    allowNull: true,
   },
 });
 const Country = sequelize.define('Country', {
   title: {
     type: DataTypes.STRING,
-    allowNull: false,
   },
 });
 
@@ -94,7 +83,6 @@ const Live = sequelize.define('live', {
 const Admin = sequelize.define('Admin', {
   email: {
     type: DataTypes.STRING,
-    allowNull: false,
     unique: true,
     validate: {
       isEmail: {
@@ -104,7 +92,6 @@ const Admin = sequelize.define('Admin', {
   },
   password: {
     type: DataTypes.STRING,
-    allowNull: false,
     validate: {
       len: {
         args: [[4, 32]],

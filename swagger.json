@@ -5,8 +5,8 @@
     "description": "Documentation for API endpoints",
     "version": "1.0.0"
   },
-  "host": "http://164.92.254.73/service",
-  "basePath": "/api/v1",
+  "host": "hetakhuyz.am/server/",
+  "basePath": "",
 "paths": {
   "/news/create": {
     "post": {
