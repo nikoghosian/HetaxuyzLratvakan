@@ -565,6 +565,22 @@ class NewsController {
       return res.status(500).json({ message: 'Something went wrong' });
     }
   }
+  async tesadaran(req, res) {
+    try {
+      const { page = 1, limit = 8 } = req.query;
+
+      const offset = (page - 1) * limit;
+
+      const news = await NewsDto.findAll({
+        limit,
+        offset,
+      });
+      return res.status(200).send(news);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ message: 'Something Went Wrong.' });
+    }
+  }
 }
 
 module.exports = new NewsController();

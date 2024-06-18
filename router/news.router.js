@@ -20,5 +20,6 @@ router.get('/latestNews/', newsController.getLatestNews);
 router.get('/getCategoriesAndNews/:id', newsController.getCategoriesAndNews);
 router.get('/getMostViewedVideo', newsController.getMostViewedVideo);
 router.get('/calendar', newsController.getNewsByCalendar);
+router.get('/watch', newsController.tesadaran);
 
 module.exports = router;

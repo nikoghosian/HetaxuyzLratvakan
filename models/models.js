@@ -22,6 +22,9 @@ const NewsDto = sequelize.define('NewsDto', {
   title: {
     type: DataTypes.STRING,
   },
+  description: {
+    type: DataTypes.STRING,
+  },
   img: {
     type: DataTypes.STRING,
   },
