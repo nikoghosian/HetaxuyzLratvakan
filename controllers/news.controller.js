@@ -354,6 +354,13 @@ class NewsController {
         const smallImageType = img.mimetype.split('/')[1];
         smallFileName = uuid.v4() + '.' + smallImageType;
         img.mv(path.resolve(__dirname, '..', 'static', smallFileName));
+      } else {
+        const newsDtoImg = await NewsDto.findOne({
+          where: {
+            id: NewsDto.id,
+          },
+          attributes: ['img'],
+        });
       }
 
       let file;
@@ -366,7 +373,8 @@ class NewsController {
 
       if (fileContent) {
         const fileContentMimeType = fileContent.mimetype.split('/')[1];
-        const fileType =  fileContentMimeType === 'video/mp4' || fileContentMimeType === 'video/quicktime'
+        const fileType =
+          fileContentMimeType === 'video/mp4' || fileContentMimeType === 'video/quicktime'
             ? 'video'
             : 'image';
 
