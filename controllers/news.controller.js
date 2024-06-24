@@ -350,17 +350,12 @@ class NewsController {
 
       let smallFileName, fileName, middleImageName;
 
-      if (img) {
+      if (typeof img == 'string') {
+        await newsDto.update(img);
+      } else {
         const smallImageType = img.mimetype.split('/')[1];
         smallFileName = uuid.v4() + '.' + smallImageType;
         img.mv(path.resolve(__dirname, '..', 'static', smallFileName));
-      } else {
-        const newsDtoImg = await NewsDto.findOne({
-          where: {
-            id: NewsDto.id,
-          },
-          attributes: ['img'],
-        });
       }
 
       let file;
