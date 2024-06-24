@@ -105,6 +105,7 @@ class NewsController {
   async getAll(req, res) {
     try {
       const news = await NewsDto.findAll({
+        order: [['id', 'DESC']],
         include: [
           {
             model: NewsContent,
@@ -339,6 +340,7 @@ class NewsController {
         author,
         fileAuthor,
         fileTitle,
+        isImage,
       } = req.body;
       const { img, fileContent, middleImage } = req.files;
 
@@ -362,7 +364,7 @@ class NewsController {
         middleImage.mv(path.resolve(__dirname, '..', 'static', middleImageName));
       }
 
-      if (fileContent) {
+      if (isImage === 'true') {
         const fileContentMimeType = fileContent.mimetype.split('/')[1];
         const fileType =
           fileContentMimeType === 'video/mp4' || fileContentMimeType === 'video/quicktime'
@@ -395,6 +397,7 @@ class NewsController {
       const news = await newsDto.update({
         title,
         countryId,
+        description,
         categoryId,
         img: img ? smallFileName : newsDto.img,
         file: fileContent ? fileName : newsDto.file,
