@@ -340,11 +340,8 @@ class NewsController {
         author,
         fileAuthor,
         fileTitle,
-        isImage,
       } = req.body;
-      const middleImage = req.files.middleImage;
-      const fileContent = req.files.fileContent;
-      const img = req.files.img;
+      const { middleImage, fileContent, img } = req.files;
       const newsDto = await NewsDto.findByPk(id, {
         include: [{ model: NewsContent, as: 'newsContent' }],
       });
@@ -400,9 +397,9 @@ class NewsController {
         countryId,
         description,
         categoryId,
-        img: img ? smallFileName : newsDto.img,
-        file: fileContent ? fileName : newsDto.file,
-        middleImage: middleImage ? middleImageName : newsDto.middleImage,
+        img: smallFileName ? smallFileName : newsDto.img,
+        file: fileName ? fileName : newsDto.file,
+        middleImage: middleImageName ? middleImageName : newsDto.middleImage,
         newsContentId: content.id,
       });
 
