@@ -341,18 +341,18 @@ class NewsController {
         fileAuthor,
         fileTitle,
         isImage,
+        sameImg,
       } = req.body;
-      const { img, fileContent, middleImage } = req.files;
+      const { fileContent, middleImage } = req.files;
 
+      const img = req.files?.img || sameImg;
       const newsDto = await NewsDto.findByPk(id, {
         include: [{ model: NewsContent, as: 'newsContent' }],
       });
 
       let smallFileName, fileName, middleImageName;
 
-      if (typeof img == 'string') {
-        await newsDto.update(img);
-      } else {
+      if (img) {
         const smallImageType = img.mimetype.split('/')[1];
         smallFileName = uuid.v4() + '.' + smallImageType;
         img.mv(path.resolve(__dirname, '..', 'static', smallFileName));
