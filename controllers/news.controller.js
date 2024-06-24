@@ -105,7 +105,7 @@ class NewsController {
   async getAll(req, res) {
     try {
       const news = await NewsDto.findAll({
-        order: [['id', 'DESC']],
+        order: [['createdAt', 'Desc']],
         include: [
           {
             model: NewsContent,
