@@ -364,10 +364,9 @@ class NewsController {
         middleImage.mv(path.resolve(__dirname, '..', 'static', middleImageName));
       }
 
-      if (isImage === 'true') {
+      if (fileContent) {
         const fileContentMimeType = fileContent.mimetype.split('/')[1];
-        const fileType =
-          fileContentMimeType === 'video/mp4' || fileContentMimeType === 'video/quicktime'
+        const fileType =  fileContentMimeType === 'video/mp4' || fileContentMimeType === 'video/quicktime'
             ? 'video'
             : 'image';
 
