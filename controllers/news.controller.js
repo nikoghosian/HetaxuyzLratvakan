@@ -341,11 +341,10 @@ class NewsController {
         fileAuthor,
         fileTitle,
         isImage,
-        sameImg,
       } = req.body;
-      const { fileContent, middleImage } = req.files;
-
-      const img = req.files?.img || sameImg;
+      const middleImage = req.files.middleImage;
+      const fileContent = req.files.fileContent;
+      const img = req.files.img;
       const newsDto = await NewsDto.findByPk(id, {
         include: [{ model: NewsContent, as: 'newsContent' }],
       });
