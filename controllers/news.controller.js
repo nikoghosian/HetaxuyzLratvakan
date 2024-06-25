@@ -22,7 +22,7 @@ class NewsController {
       if (url) {
         const { img, middleImage } = req.files;
         const middleImageType = middleImage.mimetype.split('/')[1];
-        const middleImageName0 = uuid.v4() + '.' + middleImageType;
+        const middleImageName = uuid.v4() + '.' + middleImageType;
         middleImage.mv(path.resolve(__dirname, '..', 'static', middleImageName));
 
         const smallImageType = img.mimetype.split('/')[1];
@@ -87,6 +87,7 @@ class NewsController {
 
       const news = await NewsDto.create({
         title,
+        description,
         countryId,
         categoryId,
         img: smallFileName,
@@ -341,6 +342,8 @@ class NewsController {
         fileAuthor,
         fileTitle,
       } = req.body;
+
+      console.log(fileAuthor);
       const { middleImage, fileContent, img } = req.files ?? {};
       const newsDto = await NewsDto.findByPk(id, {
         include: [{ model: NewsContent, as: 'newsContent' }],
@@ -366,8 +369,8 @@ class NewsController {
         const fileContentMimeType = fileContent.mimetype.split('/')[1];
         const fileType =
           fileContentMimeType === 'video/mp4' || fileContentMimeType === 'video/quicktime'
-            ? 'video'
-            : 'image';
+            ? false
+            : true;
 
         fileName = uuid.v4() + '.' + fileContentMimeType;
         fileContent.mv(path.resolve(__dirname, '..', 'static', fileName));
@@ -380,7 +383,17 @@ class NewsController {
           },
           { where: { id: newsDto.newsContent.fileId } },
         );
+      } else {
+        await File.update(
+          {
+            url: fileName,
+            title: fileTitle,
+            author: fileAuthor,
+          },
+          { where: { id: newsDto.newsContent.fileId } },
+        );
       }
+      // }
 
       const content = await NewsContent.update(
         {
