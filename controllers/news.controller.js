@@ -341,7 +341,7 @@ class NewsController {
         fileAuthor,
         fileTitle,
       } = req.body;
-      const { middleImage, fileContent, img } = req.files;
+      const { middleImage, fileContent, img } = req.files ?? {};
       const newsDto = await NewsDto.findByPk(id, {
         include: [{ model: NewsContent, as: 'newsContent' }],
       });
@@ -376,7 +376,7 @@ class NewsController {
             url: fileName,
             title: fileTitle,
             author: fileAuthor,
-            isImage: fileType === 'image' ? true : false,
+            isImage: fileType,
           },
           { where: { id: newsDto.newsContent.fileId } },
         );
