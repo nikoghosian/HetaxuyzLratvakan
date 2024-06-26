@@ -256,6 +256,7 @@ class NewsController {
       const { countryId, categoryId } = req.query;
       if (categoryId && countryId) {
         const news = await NewsDto.findAll({
+          order: [['createdAt', 'DESC']],
           where: {
             countryId,
             categoryId,
@@ -275,6 +276,7 @@ class NewsController {
         return res.send(news);
       } else if (categoryId) {
         const newsNoCountry = await NewsDto.findAll({
+          order: [['createdAt', 'DESC']],
           where: {
             categoryId,
           },
@@ -291,6 +293,7 @@ class NewsController {
         return res.send(newsNoCountry);
       } else if (countryId) {
         const newsNoCategorie = await NewsDto.findAll({
+          order: [['createdAt', 'DESC']],
           where: {
             countryId,
           },
