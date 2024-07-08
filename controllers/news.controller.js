@@ -344,9 +344,9 @@ class NewsController {
         author,
         fileAuthor,
         fileTitle,
+        url,
       } = req.body;
 
-      console.log(fileAuthor);
       const { middleImage, fileContent, img } = req.files ?? {};
       const newsDto = await NewsDto.findByPk(id, {
         include: [{ model: NewsContent, as: 'newsContent' }],
@@ -379,7 +379,7 @@ class NewsController {
         fileContent.mv(path.resolve(__dirname, '..', 'static', fileName));
         file = await File.update(
           {
-            url: url,
+            url: fileName,
             title: fileTitle,
             author: fileAuthor,
             isImage: fileType,
@@ -389,7 +389,7 @@ class NewsController {
       } else {
         await File.update(
           {
-            url: fileName,
+            url: url,
             title: fileTitle,
             author: fileAuthor,
           },
