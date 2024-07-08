@@ -346,66 +346,58 @@ class NewsController {
         fileTitle,
       } = req.body;
 
-      console.log('fileAuthor:', fileAuthor);
+      console.log(fileAuthor);
       const { middleImage, fileContent, img } = req.files ?? {};
       const newsDto = await NewsDto.findByPk(id, {
         include: [{ model: NewsContent, as: 'newsContent' }],
       });
-
-      if (!newsDto) {
-        return res.status(404).json({ success: false, message: 'News not found' });
-      }
 
       let smallFileName, fileName, middleImageName;
 
       if (img) {
         const smallImageType = img.mimetype.split('/')[1];
         smallFileName = uuid.v4() + '.' + smallImageType;
-        await img.mv(path.resolve(__dirname, '..', 'static', smallFileName));
-        console.log('smallFileName:', smallFileName);
+        img.mv(path.resolve(__dirname, '..', 'static', smallFileName));
       }
+
+      let file;
 
       if (middleImage) {
         const middleImageType = middleImage.mimetype.split('/')[1];
         middleImageName = uuid.v4() + '.' + middleImageType;
-        await middleImage.mv(path.resolve(__dirname, '..', 'static', middleImageName));
-        console.log('middleImageName:', middleImageName);
+        middleImage.mv(path.resolve(__dirname, '..', 'static', middleImageName));
       }
 
-      let file;
       if (fileContent) {
         const fileContentMimeType = fileContent.mimetype.split('/')[1];
         const fileType =
-          fileContent.mimetype === 'video/mp4' || fileContent.mimetype === 'video/quicktime'
+          fileContentMimeType === 'video/mp4' || fileContentMimeType === 'video/quicktime'
             ? false
             : true;
 
         fileName = uuid.v4() + '.' + fileContentMimeType;
-        await fileContent.mv(path.resolve(__dirname, '..', 'static', fileName));
-        console.log('fileName:', fileName);
-
-        file = await File.update(
+        fileContent.mv(path.resolve(__dirname, '..', 'static', fileName));
+        await File.destroy({ where: { id: NewsContent.file.id } });
+        file = await File.create(
           {
             url: fileName,
             title: fileTitle,
             author: fileAuthor,
             isImage: fileType,
           },
-          { where: { id: newsDto.newsContent.fileId }, returning: true, plain: true },
+          { where: { id: newsDto.newsContent.fileId } },
         );
-
-        console.log('File update result:', file);
-        file = file[1]; // Extract the updated file record
       } else {
         await File.update(
           {
+            url: fileName,
             title: fileTitle,
             author: fileAuthor,
           },
           { where: { id: newsDto.newsContent.fileId } },
         );
-        console.log('Updated file title and author without file content');
       }
+      // }
 
       const content = await NewsContent.update(
         {
@@ -414,10 +406,8 @@ class NewsController {
           author,
           fileId: file ? file.id : newsDto.newsContent.fileId,
         },
-        { where: { id: newsDto.newsContent.id }, returning: true, plain: true },
+        { where: { id: newsDto.newsContent.id } },
       );
-
-      console.log('NewsContent update result:', content);
 
       const news = await newsDto.update({
         title,
@@ -430,11 +420,9 @@ class NewsController {
         newsContentId: content.id,
       });
 
-      console.log('Updated news:', news);
-
       return res.send(news);
     } catch (e) {
-      console.log('Error:', e);
+      console.log(e);
       res.status(400).json({ success: false });
     }
   }
