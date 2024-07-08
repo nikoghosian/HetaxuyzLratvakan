@@ -157,6 +157,7 @@ class NewsController {
       // });
       // return res.send(todayNews);
       const news = await NewsDto.findAll({
+        where: { onSlider: true },
         limit: 4,
         order: [['createdAt', 'DESC']],
         include: [

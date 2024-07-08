@@ -1,5 +1,5 @@
 const sequelize = require('../db');
-const { DataTypes } = require('sequelize');
+const { DataTypes, BOOLEAN } = require('sequelize');
 
 const NewsContent = sequelize.define('NewsContent', {
   title: {
@@ -44,6 +44,10 @@ const NewsDto = sequelize.define('NewsDto', {
   },
   middleImage: {
     type: DataTypes.STRING,
+    allowNull: true,
+  },
+  onSlider: {
+    type: DataTypes.BOOLEAN,
     allowNull: true,
   },
 });
