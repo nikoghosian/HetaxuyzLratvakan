@@ -165,7 +165,7 @@ class NewsController {
           {
             model: NewsContent,
             as: 'newsContent',
-            include: [{ model: File, as: 'file', where: { isImage: true } }],
+            include: [{ model: File, as: 'file' }],
             required: true,
           },
         ],
