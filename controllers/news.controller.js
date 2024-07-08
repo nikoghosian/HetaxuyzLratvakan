@@ -367,8 +367,7 @@ class NewsController {
         middleImageName = uuid.v4() + '.' + middleImageType;
         middleImage.mv(path.resolve(__dirname, '..', 'static', middleImageName));
       }
-      fileName = uuid.v4() + '.' + fileContentMimeType;
-      fileContent.mv(path.resolve(__dirname, '..', 'static', fileName));
+
       if (fileContent) {
         const fileContentMimeType = fileContent.mimetype.split('/')[1];
         const fileType =
@@ -376,6 +375,8 @@ class NewsController {
             ? false
             : true;
 
+        fileName = uuid.v4() + '.' + fileContentMimeType;
+        fileContent.mv(path.resolve(__dirname, '..', 'static', fileName));
         file = await File.update(
           {
             url: fileName,
