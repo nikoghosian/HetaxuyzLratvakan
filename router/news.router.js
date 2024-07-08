@@ -4,7 +4,7 @@ const CheckAuthMiddleware = require('../middlewares/authMiddleware');
 
 const router = Router();
 
-router.post('/create', CheckAuthMiddleware, newsController.create);
+router.post('/create', newsController.create);
 router.get('/getAll', newsController.getAll);
 router.get('/getOne/:id', newsController.getOne);
 router.get('/getToday', newsController.getTodaysNews);
@@ -21,5 +21,5 @@ router.get('/getCategoriesAndNews/:id', newsController.getCategoriesAndNews);
 router.get('/getMostViewedVideo', newsController.getMostViewedVideo);
 router.get('/calendar', newsController.getNewsByCalendar);
 router.get('/watch', newsController.tesadaran);
-
+router.put('/slider', newsController.slider);
 module.exports = router;

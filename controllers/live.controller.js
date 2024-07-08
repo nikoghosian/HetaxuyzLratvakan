@@ -13,7 +13,8 @@ class LiveController {
   }
   async getAll(req, res) {
     try {
-      const live = await Live.findAll();
+      const live = await Live.findAll({ order: [['createdAt', 'DESC']] });
+
       return res.send(live);
     } catch (e) {
       throw e;

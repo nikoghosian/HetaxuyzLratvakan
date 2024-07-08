@@ -159,7 +159,6 @@ class NewsController {
       const news = await NewsDto.findAll({
         where: { onSlider: true },
         limit: 4,
-        order: [['createdAt', 'DESC']],
         include: [
           { model: Country, as: 'country' },
           { model: Categorie, as: 'category' },
@@ -597,6 +596,20 @@ class NewsController {
     } catch (error) {
       console.log(error);
       return res.status(500).json({ message: 'Something Went Wrong.' });
+    }
+  }
+  async slider(req, res) {
+    try {
+      const { id1, id2, id3, id4 } = req.query;
+      await NewsDto.update({ onSlider: false }, { where: { onSlider: true } });
+      const news = await NewsDto.update(
+        { onSlider: true },
+        { where: { id: [id1, id2, id3, id4] } },
+      );
+      return res.status(200).json(news);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ message: 'Something Went Wrong .' });
     }
   }
 }
