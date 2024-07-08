@@ -352,31 +352,35 @@ class NewsController {
         include: [{ model: NewsContent, as: 'newsContent' }],
       });
 
+      if (!newsDto) {
+        return res.status(404).json({ success: false, message: 'News not found' });
+      }
+
       let smallFileName, fileName, middleImageName;
 
       if (img) {
         const smallImageType = img.mimetype.split('/')[1];
         smallFileName = uuid.v4() + '.' + smallImageType;
-        img.mv(path.resolve(__dirname, '..', 'static', smallFileName));
+        await img.mv(path.resolve(__dirname, '..', 'static', smallFileName));
       }
-
-      let file;
 
       if (middleImage) {
         const middleImageType = middleImage.mimetype.split('/')[1];
         middleImageName = uuid.v4() + '.' + middleImageType;
-        middleImage.mv(path.resolve(__dirname, '..', 'static', middleImageName));
+        await middleImage.mv(path.resolve(__dirname, '..', 'static', middleImageName));
       }
 
+      let file;
       if (fileContent) {
         const fileContentMimeType = fileContent.mimetype.split('/')[1];
         const fileType =
-          fileContentMimeType === 'video/mp4' || fileContentMimeType === 'video/quicktime'
+          fileContent.mimetype === 'video/mp4' || fileContent.mimetype === 'video/quicktime'
             ? false
             : true;
 
         fileName = uuid.v4() + '.' + fileContentMimeType;
-        fileContent.mv(path.resolve(__dirname, '..', 'static', fileName));
+        await fileContent.mv(path.resolve(__dirname, '..', 'static', fileName));
+
         file = await File.update(
           {
             url: fileName,
@@ -384,19 +388,19 @@ class NewsController {
             author: fileAuthor,
             isImage: fileType,
           },
-          { where: { id: newsDto.newsContent.fileId } },
+          { where: { id: newsDto.newsContent.fileId }, returning: true, plain: true },
         );
+
+        file = file[1]; // Extract the updated file record
       } else {
         await File.update(
           {
-            url: fileName,
             title: fileTitle,
             author: fileAuthor,
           },
           { where: { id: newsDto.newsContent.fileId } },
         );
       }
-      // }
 
       const content = await NewsContent.update(
         {
@@ -405,7 +409,7 @@ class NewsController {
           author,
           fileId: file ? file.id : newsDto.newsContent.fileId,
         },
-        { where: { id: newsDto.newsContent.id } },
+        { where: { id: newsDto.newsContent.id }, returning: true, plain: true },
       );
 
       const news = await newsDto.update({
