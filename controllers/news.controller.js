@@ -346,7 +346,7 @@ class NewsController {
         fileTitle,
       } = req.body;
 
-      console.log(fileAuthor);
+      console.log('fileAuthor:', fileAuthor);
       const { middleImage, fileContent, img } = req.files ?? {};
       const newsDto = await NewsDto.findByPk(id, {
         include: [{ model: NewsContent, as: 'newsContent' }],
@@ -362,12 +362,14 @@ class NewsController {
         const smallImageType = img.mimetype.split('/')[1];
         smallFileName = uuid.v4() + '.' + smallImageType;
         await img.mv(path.resolve(__dirname, '..', 'static', smallFileName));
+        console.log('smallFileName:', smallFileName);
       }
 
       if (middleImage) {
         const middleImageType = middleImage.mimetype.split('/')[1];
         middleImageName = uuid.v4() + '.' + middleImageType;
         await middleImage.mv(path.resolve(__dirname, '..', 'static', middleImageName));
+        console.log('middleImageName:', middleImageName);
       }
 
       let file;
@@ -380,6 +382,7 @@ class NewsController {
 
         fileName = uuid.v4() + '.' + fileContentMimeType;
         await fileContent.mv(path.resolve(__dirname, '..', 'static', fileName));
+        console.log('fileName:', fileName);
 
         file = await File.update(
           {
@@ -391,6 +394,7 @@ class NewsController {
           { where: { id: newsDto.newsContent.fileId }, returning: true, plain: true },
         );
 
+        console.log('File update result:', file);
         file = file[1]; // Extract the updated file record
       } else {
         await File.update(
@@ -400,6 +404,7 @@ class NewsController {
           },
           { where: { id: newsDto.newsContent.fileId } },
         );
+        console.log('Updated file title and author without file content');
       }
 
       const content = await NewsContent.update(
@@ -412,6 +417,8 @@ class NewsController {
         { where: { id: newsDto.newsContent.id }, returning: true, plain: true },
       );
 
+      console.log('NewsContent update result:', content);
+
       const news = await newsDto.update({
         title,
         countryId,
@@ -423,9 +430,11 @@ class NewsController {
         newsContentId: content.id,
       });
 
+      console.log('Updated news:', news);
+
       return res.send(news);
     } catch (e) {
-      console.log(e);
+      console.log('Error:', e);
       res.status(400).json({ success: false });
     }
   }
