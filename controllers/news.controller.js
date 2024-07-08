@@ -352,7 +352,7 @@ class NewsController {
         include: [{ model: NewsContent, as: 'newsContent' }],
       });
 
-      let smallFileName, fileName, middleImageName;
+      let smallFileName, fileName, middleImageName, url;
 
       if (img) {
         const smallImageType = img.mimetype.split('/')[1];
@@ -367,7 +367,16 @@ class NewsController {
         middleImageName = uuid.v4() + '.' + middleImageType;
         middleImage.mv(path.resolve(__dirname, '..', 'static', middleImageName));
       }
-
+      if (url) {
+        await File.update(
+          {
+            url: url,
+            title: fileTitle,
+            author: fileAuthor,
+          },
+          { where: { id: newsDto.newsContent.fileId } },
+        );
+      }
       if (fileContent) {
         const fileContentMimeType = fileContent.mimetype.split('/')[1];
         const fileType =
@@ -377,10 +386,8 @@ class NewsController {
 
         fileName = uuid.v4() + '.' + fileContentMimeType;
         fileContent.mv(path.resolve(__dirname, '..', 'static', fileName));
-        await File.destroy({ where: { id: NewsContent.file.id } });
-        file = await File.create(
+        file = await File.update(
           {
-            url: fileName,
             title: fileTitle,
             author: fileAuthor,
             isImage: fileType,
@@ -390,7 +397,6 @@ class NewsController {
       } else {
         await File.update(
           {
-            url: fileName,
             title: fileTitle,
             author: fileAuthor,
           },
