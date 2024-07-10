@@ -11,7 +11,7 @@ const app = express();
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const swaggerDocument = require('./swagger.json');
-
+const fs = require('fs');
 app.use(cors());
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
@@ -26,6 +26,20 @@ app.use('/countries', CountryRouter);
 app.use('/categories', CategorieRouter);
 app.use('/live', LiveRouter);
 app.use('/admin', AdminRouter);
+
+app.get('/news', (req, res) => {
+  const filePath = path.resolve(__dirname, '../hetakhuyz/build', 'index.html');
+  fs.readFile(filePath, 'utf-8', (err, data) => {
+    if (err) {
+      return console.log(err);
+    }
+    data = data
+      .replace(/__TITLE__/g, 'Home Page')
+      .replace(/__DESCRIPTION__/g, 'Home page description.');
+  });
+  res.send(data);
+});
+app.use(express.static(path.resolve(__dirname, './build')));
 const start = async () => {
   try {
     await Sequelize.authenticate();
@@ -37,6 +51,8 @@ const start = async () => {
 };
 
 start();
+
+///////////////////////////////////////////FOR REMOVE DATA OF THE TABLES\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 // async function clearDatabase() {
 //   try {

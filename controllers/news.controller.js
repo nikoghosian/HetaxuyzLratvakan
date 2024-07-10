@@ -1,8 +1,7 @@
-const { NewsDto, Country, Categorie, NewsContent, File, Live } = require('../models/models');
+const { NewsDto, Country, Categorie, NewsContent, File } = require('../models/models');
 const uuid = require('uuid');
 const path = require('path');
 const { Op } = require('sequelize');
-const moment = require('moment');
 
 class NewsController {
   async create(req, res) {
@@ -131,31 +130,6 @@ class NewsController {
   }
   async getTodaysNews(req, res) {
     try {
-      // const today = new Date();
-      // today.setHours(0, 0, 0, 0);
-
-      // const tomorrow = new Date(today);
-      // tomorrow.setDate(today.getDate() + 1);
-
-      // const todayNews = await NewsDto.findAll({
-      //   limit: 7,
-      //   where: {
-      //     createdAt: {
-      //
-      //       [Op.between]: [today, tomorrow],
-      //     },
-      //   },
-      //   include: [
-      //     {
-      //       model: NewsContent,
-      //       as: 'newsContent',
-      //       include: [{ model: File, as: 'file', where: { isImage: true } }],
-      //       required: true,
-      //     },
-      //     { model: Country, as: 'country' },
-      //   ],
-      // });
-      // return res.send(todayNews);
       const news = await NewsDto.findAll({
         where: { onSlider: true },
         limit: 4,

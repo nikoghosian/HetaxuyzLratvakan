@@ -4,7 +4,7 @@ const CheckAuthMiddleware = require('../middlewares/authMiddleware');
 
 const router = Router();
 
-router.post('/create', newsController.create);
+router.post('/create', CheckAuthMiddleware, newsController.create);
 router.get('/getAll', newsController.getAll);
 router.get('/getOne/:id', newsController.getOne);
 router.get('/getToday', newsController.getTodaysNews);
