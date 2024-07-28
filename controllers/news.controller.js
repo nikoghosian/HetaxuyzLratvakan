@@ -575,12 +575,22 @@ class NewsController {
   async slider(req, res) {
     try {
       const { id1, id2, id3, id4 } = req.query;
-      await NewsDto.update({ onSlider: false }, { where: { onSlider: true } });
-      const news = await NewsDto.update(
-        { onSlider: true },
-        { where: { id: [id1, id2, id3, id4] } },
-      );
-      return res.status(200).json(news);
+      await NewsDto.update({ onSlider: false, order: null }, { where: { onSlider: true } });
+      await NewsDto.update({ onSlider: true, order: 1 }, { where: { id: id1 } });
+      await NewsDto.update({ onSlider: true, order: 2 }, { where: { id: id2 } });
+      if (id3) {
+        await NewsDto.update({ onSlider: true, order: 3 }, { where: { id: id3 } });
+      }
+      if (id4) {
+        await NewsDto.update({ onSlider: true, order: 4 }, { where: { id: id4 } });
+      }
+      const updatedNews = await NewsDto.findAll({
+        where: {
+          id: [id1, id2, id3, id4],
+        },
+        order: [['order', 'ASC']],
+      });
+      return res.status(200).json(updatedNews);
     } catch (error) {
       console.log(error);
       return res.status(500).json({ message: 'Something Went Wrong .' });

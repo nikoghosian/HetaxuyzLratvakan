@@ -27,24 +27,11 @@ app.use('/categories', CategorieRouter);
 app.use('/live', LiveRouter);
 app.use('/admin', AdminRouter);
 
-app.get('/news', (req, res) => {
-  const filePath = path.resolve(__dirname, '../hetakhuyz/build', 'index.html');
-  fs.readFile(filePath, 'utf-8', (err, data) => {
-    if (err) {
-      return console.log(err);
-    }
-    data = data
-      .replace(/__TITLE__/g, 'Home Page')
-      .replace(/__DESCRIPTION__/g, 'Home page description.');
-  });
-  res.send(data);
-});
-app.use(express.static(path.resolve(__dirname, './build')));
 const start = async () => {
   try {
     await Sequelize.authenticate();
-    await Sequelize.sync();
-    app.listen(PORT, () => console.log(`Server Started On Port ${PORT}`));
+    await Sequelize.sync({ alter: true });
+    app.listen(process.env.PORT || 8080, () => console.log('Server OK'));
   } catch (e) {
     console.log(e);
   }

@@ -46,6 +46,10 @@ const NewsDto = sequelize.define('NewsDto', {
     type: DataTypes.STRING,
     allowNull: true,
   },
+  order: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
   onSlider: {
     type: DataTypes.BOOLEAN,
     allowNull: true,
