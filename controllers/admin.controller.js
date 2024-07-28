@@ -10,9 +10,9 @@ class AdminController {
 
       const hashedPassword = await bcrypt.hash(password, 7);
 
-      const newAdmin = await Admin.create({ email, password: hashedPassword });
+      const newAdmin = await Admin.create({ email, password: hashedPassword, role: 'ADMIN' });
       const { accessToken, refreshToken } = tokenService.generateToken({
-        role: 'ADMIN',
+        role: newAdmin.role,
         id: newAdmin.id,
       });
 
@@ -37,7 +37,7 @@ class AdminController {
       }
 
       const { accessToken, refreshToken } = tokenService.generateToken({
-        role: 'ADMIN',
+        role: admin.role,
         id: admin.id,
       });
 
@@ -49,7 +49,8 @@ class AdminController {
   }
   async authMe(req, res) {
     try {
-      const { id } = req.admin;
+      const { id } = req.user;
+      // const { id } = req.admin;
       const admin = await Admin.findOne({
         where: {
           id,
@@ -59,7 +60,7 @@ class AdminController {
         return res.status(400).json({ success: false, message: 'Something was Wrong' });
       }
       const { accessToken, refreshToken } = tokenService.generateToken({
-        role: 'ADMIN',
+        role: admin.role,
         id: admin.id,
       });
 
@@ -80,7 +81,7 @@ class AdminController {
       }
 
       const { accessToken, refreshToken } = tokenService.generateToken({
-        role: 'ADMIN',
+        role: oldToken.role,
         id: oldToken.id,
       });
 
@@ -88,6 +89,25 @@ class AdminController {
     } catch (e) {
       console.log(e);
       return res.status(400).json({ success: false });
+    }
+  }
+
+  async registerSuperAdmin(req, res) {
+    try {
+      const { email, password } = req.body;
+
+      const hashedPassword = await bcrypt.hash(password, 7);
+
+      const newAdmin = await Admin.create({ email, password: hashedPassword, role: 'SUPERADMIN' });
+      const { accessToken, refreshToken } = tokenService.generateToken({
+        role: newAdmin.role,
+        id: newAdmin.id,
+      });
+
+      return res.status(201).json({ ...newAdmin.toJSON(), accessToken, refreshToken });
+    } catch (e) {
+      console.error(e);
+      res.status(404).json({ success: false });
     }
   }
 }

@@ -1,10 +1,10 @@
 const Router = require('express');
 const CountryController = require('../controllers/country.controller');
 const router = new Router();
-const authMiddleware = require('../middlewares/authMiddleware');
+const checkAuth = require('../middlewares/superAdminMiddleware');
 
-router.post('/create', CountryController.create);
+router.post('/create', checkAuth(['SUPERADMIN']), CountryController.create);
 router.get('/getAll', CountryController.getAll);
-router.put('/edit/:id', authMiddleware, CountryController.EditCountries);
-router.delete('/delete/:id', authMiddleware, CountryController.DeleteCountries);
+router.put('/edit/:id', checkAuth(['SUPERADMIN', 'ADMIN']), CountryController.EditCountries);
+router.delete('/delete/:id', checkAuth(['SUPERADMIN', 'ADMIN']), CountryController.DeleteCountries);
 module.exports = router;

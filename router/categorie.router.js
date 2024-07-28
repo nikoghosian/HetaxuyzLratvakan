@@ -1,12 +1,16 @@
 const Router = require('express');
 const CategorieController = require('../controllers/categorie.controller');
-const CheckAuthMiddleware = require('../middlewares/authMiddleware');
+const checkAuth = require('../middlewares/superAdminMiddleware');
 
 const router = new Router();
 
-router.post('/create', CheckAuthMiddleware, CategorieController.create);
+router.post('/create', checkAuth(['SUPERADMIN']), CategorieController.create);
 router.get('/getAll', CategorieController.getAll);
-router.put('/edit/:id', CheckAuthMiddleware, CategorieController.EditCategories);
-router.delete('/delete/:id', CheckAuthMiddleware, CategorieController.DeleteCategories);
+router.put('/edit/:id', checkAuth(['SUPERADMIN', 'ADMIN']), CategorieController.EditCategories);
+router.delete(
+  '/delete/:id',
+  checkAuth(['SUPERADMIN', 'ADMIN']),
+  CategorieController.DeleteCategories,
+);
 
 module.exports = router;

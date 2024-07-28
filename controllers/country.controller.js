@@ -2,6 +2,7 @@ const { Country } = require('../models/models');
 
 class CountryController {
   async create(req, res) {
+    const { id: userId } = req.user;
     try {
       const { title } = req.body;
 
@@ -25,6 +26,7 @@ class CountryController {
 
   async EditCountries(req, res) {
     try {
+      const { id: userId } = req.user;
       const { id } = req.params;
       const { title } = req.body;
 
@@ -43,6 +45,7 @@ class CountryController {
   }
   async DeleteCountries(req, res) {
     try {
+      const { id: userId } = req.user;
       const { id } = req.params;
       await Country.destroy({
         where: {

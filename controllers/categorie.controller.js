@@ -2,6 +2,7 @@ const { Categorie } = require('../models/models');
 
 class CategorieController {
   async create(req, res) {
+    const { id: userId } = req.user;
     try {
       const { title } = req.body;
 
@@ -21,6 +22,7 @@ class CategorieController {
   }
   async EditCategories(req, res) {
     try {
+      const { id: userId } = req.user;
       const { id } = req.params;
       const { title } = req.body;
 
@@ -40,6 +42,7 @@ class CategorieController {
 
   async DeleteCategories(req, res) {
     try {
+      const { id: userId } = req.user;
       const { id } = req.params;
       await Categorie.destroy({
         where: {

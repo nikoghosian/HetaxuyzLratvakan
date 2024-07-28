@@ -3,6 +3,7 @@ const { Live } = require('../models/models');
 class LiveController {
   async create(req, res) {
     try {
+      const { id: userId } = req.user;
       const { url, title } = req.body;
       const live = await Live.create({ url, title });
       return res.json(live);
@@ -22,6 +23,7 @@ class LiveController {
   }
   async edit(req, res) {
     try {
+      const { id: userId } = req.user;
       const { id } = req.params;
       const { url, title } = req.body;
       const live = await Live.findByPk(id);
@@ -39,6 +41,7 @@ class LiveController {
   }
   async delete(req, res) {
     try {
+      const { id: userId } = req.user;
       const { id } = req.params;
       await Live.destroy({
         where: {

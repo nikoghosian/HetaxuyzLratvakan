@@ -110,6 +110,10 @@ const Admin = sequelize.define('Admin', {
       },
     },
   },
+  role: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
 });
 
 NewsContent.hasOne(NewsDto, { foreignKey: 'newsContentId' });
