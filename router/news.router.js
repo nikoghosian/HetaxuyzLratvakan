@@ -23,4 +23,3 @@ router.get('/calendar', newsController.getNewsByCalendar);
 router.get('/watch', newsController.tesadaran);
 router.put('/slider', checkAuth(['SUPERADMIN', 'ADMIN']), newsController.slider);
 module.exports = router;
-///////asdasdasdsadsa
