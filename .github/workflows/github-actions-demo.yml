@@ -24,7 +24,7 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} << EOF
             cd /path/to/your/project || exit
-            git pull origin master
-            npm install
+            git pull origin main
+            npm ci
             pm2 restart 4
           EOF
