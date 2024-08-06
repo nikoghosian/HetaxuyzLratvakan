@@ -9,4 +9,3 @@ router.get('/authMe', checkAuth(['SUPERADMIN', 'ADMIN']), AdminController.authMe
 router.get('/refresh', AdminController.refresh);
 
 module.exports = router;
-// sadsafdjhk
