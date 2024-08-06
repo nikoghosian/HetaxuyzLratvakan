@@ -36,7 +36,7 @@ const start = async () => {
     console.log(e);
   }
 };
-///asdasdsadas dasdasdas
+
 start();
 
 ///////////////////////////////////////////FOR REMOVE DATA OF THE TABLES\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
