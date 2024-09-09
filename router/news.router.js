@@ -22,4 +22,6 @@ router.get('/getMostViewedVideo', newsController.getMostViewedVideo);
 router.get('/calendar', newsController.getNewsByCalendar);
 router.get('/watch', newsController.tesadaran);
 router.put('/slider', checkAuth(['SUPERADMIN', 'ADMIN']), newsController.slider);
+router.get('/allViews', newsController.newsViews);
+
 module.exports = router;
