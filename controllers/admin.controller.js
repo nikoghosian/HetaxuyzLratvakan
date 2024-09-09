@@ -8,6 +8,11 @@ class AdminController {
     try {
       const { email, password } = req.body;
 
+      const admin = await Admin.findOne({ where: { email } });
+      if (admin) {
+        return res.status(409).json({ success: false });
+      }
+
       const hashedPassword = await bcrypt.hash(password, 7);
 
       const newAdmin = await Admin.create({ email, password: hashedPassword, role: 'ADMIN' });

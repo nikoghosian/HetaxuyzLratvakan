@@ -600,6 +600,22 @@ class NewsController {
       return res.status(500).json({ message: 'Something Went Wrong .' });
     }
   }
+
+  async newsViews(req, res) {
+    try {
+      const { page = 1, limit = 12 } = req.query;
+
+      const offset = (page - 1) * limit;
+      const news = await NewsDto.findAll(
+        { limit, offset },
+        { attributes: ['title', 'img', 'views'] },
+      );
+      return res.json(news);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ message: 'Something Went Wrong' });
+    }
+  }
 }
 
 module.exports = new NewsController();
