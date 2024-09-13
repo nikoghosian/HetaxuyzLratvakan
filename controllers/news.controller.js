@@ -2,7 +2,7 @@ const { NewsDto, Country, Categorie, NewsContent, File } = require('../models/mo
 const uuid = require('uuid');
 const path = require('path');
 const { Op } = require('sequelize');
-
+const { subDays } = require('date-fns');
 class NewsController {
   async create(req, res) {
     try {
@@ -188,7 +188,14 @@ class NewsController {
 
   async getMostViewed(req, res) {
     try {
+      const fifteenDaysAgo = subDays(new Date(), 15); // Определяем дату 15 дней назад
+
       const news = await NewsDto.findAll({
+        where: {
+          createdAt: {
+            [Op.gte]: fifteenDaysAgo, // Условие для фильтрации новостей за последние 15 дней
+          },
+        },
         limit: 3,
         order: [['views', 'DESC']],
         include: [
