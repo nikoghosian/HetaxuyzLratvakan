@@ -6,7 +6,6 @@ const { subDays } = require('date-fns');
 class NewsController {
   async create(req, res) {
     try {
-      const { id: userId } = req.user;
       const {
         title,
         description,
@@ -315,7 +314,6 @@ class NewsController {
 
   async editNews(req, res) {
     try {
-      const { id: userId } = req.user;
       const { id } = req.params;
       const {
         title,
@@ -467,7 +465,6 @@ class NewsController {
   }
   async deleteNews(req, res) {
     try {
-      const { id: userId } = req.user;
       const { id } = req.params;
       await NewsDto.destroy({
         where: {
@@ -584,7 +581,6 @@ class NewsController {
   }
   async slider(req, res) {
     try {
-      const { id: userId } = req.user;
       const { id1, id2, id3, id4 } = req.query;
       await NewsDto.update({ onSlider: false, order: null }, { where: { onSlider: true } });
       await NewsDto.update({ onSlider: true, order: 1 }, { where: { id: id1 } });
