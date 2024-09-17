@@ -64,13 +64,12 @@ class AdminController {
       if (!admin) {
         return res.status(400).json({ success: false, message: 'Something was Wrong' });
       }
-      return res.status(409).json({ success: false });
-      // const { accessToken, refreshToken } = tokenService.generateToken({
-      //   role: admin.role,
-      //   id: admin.id,
-      // });
+      const { accessToken, refreshToken } = tokenService.generateToken({
+        role: admin.role,
+        id: admin.id,
+      });
 
-      // return res.send({ ...admin.toJSON(), accessToken, refreshToken });
+      return res.send({ ...admin.toJSON(), accessToken, refreshToken });
     } catch (e) {
       console.log(e);
       return res.status(400).json({ success: false });
