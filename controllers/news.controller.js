@@ -105,13 +105,13 @@ class NewsController {
 
   async getAll(req, res) {
     try {
-      // const { page = 1, limit = 8 } = req.query;
+      const { page = 1, limit = 50 } = req.query;
 
-      // const offset = (page - 1) * limit;
+      const offset = (page - 1) * limit;
 
       const news = await NewsDto.findAll({
-        // limit,
-        // offset,
+        limit,
+        offset,
         order: [['createdAt', 'Desc']],
         include: [
           {
