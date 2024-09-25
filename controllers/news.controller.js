@@ -110,7 +110,7 @@ class NewsController {
       const offset = (page - 1) * limit;
 
       const news = await NewsDto.findAll({
-        limit,
+        limit: 50,
         offset,
         order: [['createdAt', 'Desc']],
         include: [
